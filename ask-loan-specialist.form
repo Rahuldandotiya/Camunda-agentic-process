@@ -1,0 +1,55 @@
+{
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.10.0",
+  "exporter": {
+    "name": "Camunda Web Modeler",
+    "version": "f38b97d"
+  },
+  "schemaVersion": 16,
+  "id": "ask-loan-specialist-form",
+  "components": [
+    {
+      "type": "text",
+      "id": "Text_12",
+      "text": "# 🧑‍💼 Loan specialist consultation\nThe AI agent needs a human decision for **{{customerName}}** ({{customerId}})."
+    },
+    {
+      "type": "textarea",
+      "id": "Field_13",
+      "key": "inquiryText",
+      "label": "Original customer inquiry",
+      "readonly": true
+    },
+    {
+      "type": "textarea",
+      "id": "Field_14",
+      "key": "caseSummary",
+      "label": "Agent's case summary",
+      "readonly": true
+    },
+    {
+      "type": "textarea",
+      "id": "Field_15",
+      "key": "specialistQuestion",
+      "label": "Agent's question to you",
+      "readonly": true
+    },
+    {
+      "type": "textarea",
+      "id": "Field_16",
+      "key": "specialistAnswer",
+      "label": "Your answer / decision",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "type": "checkbox",
+      "id": "Field_17",
+      "key": "takeOver",
+      "label": "I will take over this case myself (stops the AI agent)",
+      "defaultValue": false
+    }
+  ],
+  "type": "default"
+}

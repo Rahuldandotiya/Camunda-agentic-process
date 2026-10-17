@@ -1,0 +1,88 @@
+{
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.10.0",
+  "exporter": {
+    "name": "Camunda Web Modeler",
+    "version": "f38b97d"
+  },
+  "schemaVersion": 16,
+  "id": "review-case-resolution-form",
+  "components": [
+    {
+      "type": "text",
+      "id": "Text_18",
+      "text": "# 🔍 Review case resolution\nThe judge agent flagged this answer for human review before it goes to **{{customerName}}** ({{customerEmail}})."
+    },
+    {
+      "type": "textfield",
+      "id": "Field_19",
+      "key": "judgeOutcome",
+      "label": "Judge outcome",
+      "readonly": true
+    },
+    {
+      "type": "textfield",
+      "id": "Field_20",
+      "key": "judgeScore",
+      "label": "Quality score",
+      "readonly": true
+    },
+    {
+      "type": "textfield",
+      "id": "Field_21",
+      "key": "judgeSentiment",
+      "label": "Customer sentiment",
+      "readonly": true
+    },
+    {
+      "type": "textarea",
+      "id": "Field_22",
+      "key": "judgeReason",
+      "label": "Judge reasoning",
+      "readonly": true
+    },
+    {
+      "type": "textarea",
+      "id": "Field_23",
+      "key": "inquiryText",
+      "label": "Customer inquiry",
+      "readonly": true
+    },
+    {
+      "type": "textarea",
+      "id": "Field_24",
+      "key": "editedResponse",
+      "label": "Agent response (edit before sending if needed)",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "type": "radio",
+      "id": "Field_25",
+      "key": "reviewDecision",
+      "label": "Decision",
+      "values": [
+        {
+          "label": "Send response to customer",
+          "value": "SEND"
+        },
+        {
+          "label": "Escalate – a specialist must take over",
+          "value": "ESCALATE"
+        }
+      ],
+      "defaultValue": "SEND",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "Field_26",
+      "key": "reviewerNotes",
+      "label": "Reviewer notes (internal)"
+    }
+  ],
+  "type": "default"
+}

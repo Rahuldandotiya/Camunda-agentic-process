@@ -1,0 +1,75 @@
+{
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.10.0",
+  "exporter": {
+    "name": "Camunda Web Modeler",
+    "version": "f38b97d"
+  },
+  "schemaVersion": 16,
+  "id": "resolve-issue-form",
+  "components": [
+    {
+      "type": "text",
+      "id": "Text_27",
+      "text": "# 🚨 Human takes full control\nThe AI agent has been stopped. Resolve the case for **{{customerName}}** ({{customerId}}, {{customerEmail}})."
+    },
+    {
+      "type": "textarea",
+      "id": "Field_28",
+      "key": "escalationReason",
+      "label": "Why this was escalated",
+      "readonly": true
+    },
+    {
+      "type": "textarea",
+      "id": "Field_29",
+      "key": "inquiryText",
+      "label": "Customer inquiry",
+      "readonly": true
+    },
+    {
+      "type": "textarea",
+      "id": "Field_30",
+      "key": "agentDraft",
+      "label": "AI agent draft (for reference)",
+      "readonly": true
+    },
+    {
+      "type": "textarea",
+      "id": "Field_31",
+      "key": "humanResolution",
+      "label": "Response to send to the customer",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "type": "select",
+      "id": "Field_32",
+      "key": "resolutionStatus",
+      "label": "Resolution status",
+      "values": [
+        {
+          "label": "Resolved",
+          "value": "RESOLVED"
+        },
+        {
+          "label": "Resolved – charges reversed / waived",
+          "value": "RESOLVED_WITH_WAIVER"
+        },
+        {
+          "label": "Referred to credit committee",
+          "value": "REFERRED_TO_CREDIT_COMMITTEE"
+        },
+        {
+          "label": "Callback scheduled",
+          "value": "CALLBACK_SCHEDULED"
+        }
+      ],
+      "validate": {
+        "required": true
+      }
+    }
+  ],
+  "type": "default"
+}

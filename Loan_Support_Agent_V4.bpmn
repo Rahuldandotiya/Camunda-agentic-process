@@ -1,0 +1,1014 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" id="Definitions_LoanSupportAgent" targetNamespace="http://nagarro.example/agentic-loan-support" exporter="Camunda Web Modeler" exporterVersion="bb728df" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.10.0">
+  <bpmn:escalation id="Escalation_HumanControl" name="Human takes full control" escalationCode="HUMAN_TAKES_CONTROL" />
+  <bpmn:message id="Message_1kjcyj7" name="f3d00a70-bda1-46ff-9d19-776fba3800db" zeebe:modelerTemplate="io.camunda.connectors.inbound.EmailMessageStart.v1">
+    <bpmn:extensionElements />
+  </bpmn:message>
+  <bpmn:message id="Message_CustomerReply" name="75a69de4-76b0-4c91-96de-7a7f3b8b569b" zeebe:modelerTemplate="io.camunda.connectors.inbound.EmailIntermediate.v1">
+    <bpmn:extensionElements>
+      <zeebe:subscription correlationKey="=caseRef" />
+    </bpmn:extensionElements>
+  </bpmn:message>
+  <bpmn:process id="Process_LoanSupportV3" name="Support Agent V4 - Handle Loan Questions" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_Request" name="Customer inquiry received (form)">
+      <bpmn:extensionElements>
+        <zeebe:formDefinition formId="loan-inquiry-start-form" />
+      </bpmn:extensionElements>
+      <bpmn:outgoing>Flow_Start_Prepare</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:startEvent id="Event_1hx9lm5" name="Email received" zeebe:modelerTemplate="io.camunda.connectors.inbound.EmailMessageStart.v1" zeebe:modelerTemplateVersion="3" zeebe:modelerTemplateIcon="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgY2xpcC1wYXRoPSJ1cmwoI2NsaXAwXzkwXzI0MjApIj4KPHBhdGggZD0iTTguMzM4MzUgOS45NTM2NUwxMC4zODk0IDEyLjAxMDRMOC4zMzI2MiAxNC4wNjcyTDkuMTQ2MTYgMTQuODc1TDEyLjAxMDcgMTIuMDEwNEw5LjE0NjE2IDkuMTQ1ODNMOC4zMzgzNSA5Ljk1MzY1WiIgZmlsbD0iYmxhY2siLz4KPHBhdGggZD0iTTEyLjM0ODggOS45NTM2NUwxNC4zOTk4IDEyLjAxMDRMMTIuMzQzIDE0LjA2NzJMMTMuMTU2NiAxNC44NzVMMTYuMDIxMiAxMi4wMTA0TDEzLjE1NjYgOS4xNDU4M0wxMi4zNDg4IDkuOTUzNjVaIiBmaWxsPSJibGFjayIvPgo8cGF0aCBkPSJNMy45NzIgMTEuNDM3NUgxLjEyNTMzVjIuNzkyMTlMNy42NzM3NiA3LjMyMzk2QzcuNzY5NjcgNy4zOTA0OSA3Ljg4MzYgNy40MjYxNCA4LjAwMDMyIDcuNDI2MTRDOC4xMTcwNSA3LjQyNjE0IDguMjMwOTggNy4zOTA0OSA4LjMyNjg5IDcuMzIzOTZMMTQuODc1MyAyLjc5MjE5VjhIMTYuMDIxMlYyLjI3MDgzQzE2LjAyMTIgMS45NjY5NCAxNS45MDA0IDEuNjc1NDkgMTUuNjg1NiAxLjQ2MDYxQzE1LjQ3MDcgMS4yNDU3MiAxNS4xNzkyIDEuMTI1IDE0Ljg3NTMgMS4xMjVIMS4xMjUzM0MwLjgyMTQzMiAxLjEyNSAwLjUyOTk4NCAxLjI0NTcyIDAuMzE1MDk5IDEuNDYwNjFDMC4xMDAyMTQgMS42NzU0OSAtMC4wMjA1MDc4IDEuOTY2OTQgLTAuMDIwNTA3OCAyLjI3MDgzVjExLjQzNzVDLTAuMDIwNTA3OCAxMS43NDE0IDAuMTAwMjE0IDEyLjAzMjggMC4zMTUwOTkgMTIuMjQ3N0MwLjUyOTk4NCAxMi40NjI2IDAuODIxNDMyIDEyLjU4MzMgMS4xMjUzMyAxMi41ODMzSDMuOTcyVjExLjQzNzVaTTEzLjYxNDkgMi4yNzA4M0w4LjAwMDMyIDYuMTU1MjFMMi4zODU3NCAyLjI3MDgzSDEzLjYxNDlaIiBmaWxsPSIjRkM1RDBEIi8+CjxwYXRoIGQ9Ik00LjI4MjEgOS45NTM2NUw2LjMzMzE0IDEyLjAxMDRMNC4yNzYzNyAxNC4wNjcyTDUuMDg5OTEgMTQuODc1TDcuOTU0NDkgMTIuMDEwNEw1LjA4OTkxIDkuMTQ1ODNMNC4yODIxIDkuOTUzNjVaIiBmaWxsPSJibGFjayIvPgo8L2c+CjxkZWZzPgo8Y2xpcFBhdGggaWQ9ImNsaXAwXzkwXzI0MjAiPgo8cmVjdCB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIGZpbGw9IndoaXRlIi8+CjwvY2xpcFBhdGg+CjwvZGVmcz4KPC9zdmc+Cg==">
+      <bpmn:extensionElements>
+        <zeebe:properties>
+          <zeebe:property name="inbound.type" value="io.camunda:connector-email-inbound:1" />
+          <zeebe:property name="authentication.type" value="simple" />
+          <zeebe:property name="authentication.username" value="{{secrets.EMAIL_USERNAME}}" />
+          <zeebe:property name="authentication.password" value="{{secrets.EMAIL_PASSWORD}}" />
+          <zeebe:property name="data.imapConfig.imapHost" value="imap.gmail.com" />
+          <zeebe:property name="data.imapConfig.imapPort" value="993" />
+          <zeebe:property name="data.imapConfig.imapCryptographicProtocol" value="TLS" />
+          <zeebe:property name="data.folderToListen" value="Camunda-Requests" />
+          <zeebe:property name="data.pollingWaitTime" value="PT30S" />
+          <zeebe:property name="data.pollingConfigDiscriminator" value="unseenPollingConfig" />
+          <zeebe:property name="data.pollingConfig.handlingStrategy" value="READ" />
+          <zeebe:property name="consumeUnmatchedEvents" value="true" />
+          <zeebe:property name="correlationRequired" value="notRequired" />
+          <zeebe:property name="messageTtl" value="PT1M" />
+          <zeebe:property name="deduplicationModeManualFlag" value="false" />
+          <zeebe:property name="deduplicationMode" value="AUTO" />
+          <zeebe:property name="resultVariable" value="" />
+          <zeebe:property name="resultExpression" value="={&#10;  cleanSubject: if subject = null then &#34;&#34; else trim(replace(subject, &#34;^((re|fw|fwd): *)+&#34;, &#34;&#34;, &#34;i&#34;)),&#10;  cleanBody: if plainTextBody = null then &#34;&#34; else trim(split(plainTextBody, &#34;(?m)^(_{5,}|-{2,} ?Original Message|On .+ wrote:|From: )&#34;)[1]),&#10;  searchText: cleanSubject + &#34; &#34; + cleanBody,&#10;  foundId: if matches(searchText, &#34;.*CUST-[0-9]{5}.*&#34;, &#34;si&#34;) then upper case(replace(searchText, &#34;^.*?(CUST-[0-9]{5}).*$&#34;, &#34;$1&#34;, &#34;si&#34;)) else null,&#10;  fromHeader: headers[key = &#34;From&#34;][1].value,&#10;  result: {&#10;    customerId: if foundId != null then foundId else fromAddress,&#10;    customerEmail: fromAddress,&#10;    senderName: if fromHeader = null or not(contains(fromHeader, &#34;&#60;&#34;)) then null else trim(replace(substring before(fromHeader, &#34;&#60;&#34;), &#34;\&#34;&#34;, &#34;&#34;)),&#10;    inquiryText: if cleanBody != &#34;&#34; then cleanBody else if cleanSubject != &#34;&#34; then cleanSubject else &#34;(The customer sent an empty email.)&#34;,&#10;    requestSubject: if cleanSubject != &#34;&#34; then cleanSubject else &#34;Your loan inquiry&#34;,&#10;    channel: &#34;EMAIL&#34;,&#10;    emailMessageId: messageId&#10;  }&#10;}.result" />
+        </zeebe:properties>
+      </bpmn:extensionElements>
+      <bpmn:outgoing>Flow_Email_Prepare</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1ofwak3" messageRef="Message_1kjcyj7" />
+    </bpmn:startEvent>
+    <bpmn:scriptTask id="Task_PrepareInquiry" name="Prepare inquiry &#38; identify customer">
+      <bpmn:documentation>Normalises form / email input and identifies the customer. Demo scenarios S1-S12 pre-fill customer + inquiry; the start form shows each query in an editable box (inquiry_S1..S12) and the edited text is used. Custom inquiry supports existing customers or a new customer / prospect (newCustomerName). (S10 = prospect without account, S12 = unknown Customer ID). Unknown senders / IDs become customerId UNVERIFIED. replyToEmail = where outbound emails go (demo inbox for example.com addresses). caseRef = unique reference used to correlate customer email replies to this process instance.</bpmn:documentation>
+      <bpmn:extensionElements>
+        <zeebe:script expression="={&#10;  directory: [&#10;    {customerId: &#34;CUST-10042&#34;, name: &#34;John Doe&#34;, email: &#34;john.doe@example.com&#34;},&#10;    {customerId: &#34;CUST-10057&#34;, name: &#34;Aisha Khan&#34;, email: &#34;aisha.khan@example.com&#34;},&#10;    {customerId: &#34;CUST-10073&#34;, name: &#34;Rahul Mehta&#34;, email: &#34;rahul.mehta@mehtatextiles.example.com&#34;},&#10;    {customerId: &#34;CUST-10088&#34;, name: &#34;Sneha Iyer&#34;, email: &#34;sneha.iyer@example.com&#34;},&#10;    {customerId: &#34;CUST-10091&#34;, name: &#34;Vikram Singh&#34;, email: &#34;vikram.singh@example.com&#34;},&#10;    {customerId: &#34;CUST-10105&#34;, name: &#34;Meera Nair&#34;, email: &#34;meera.nair@example.com&#34;},&#10;    {customerId: &#34;CUST-10120&#34;, name: &#34;Farhan Sheikh&#34;, email: &#34;farhan.sheikh@example.com&#34;},&#10;    {customerId: &#34;CUST-10134&#34;, name: &#34;Kavya Menon&#34;, email: &#34;kavya.menon@example.com&#34;}&#10;  ],&#10;  scenarios: {&#10;    S1: {customerId: &#34;CUST-10042&#34;, inquiryText: &#34;I would like to understand my current loan status, remaining EMIs, and whether I can restructure my home loan repayment schedule to reduce my monthly burden.&#34;},&#10;    S2: {customerId: &#34;CUST-10057&#34;, inquiryText: &#34;I missed my car loan EMI last month because of a medical emergency in the family. Can you waive the late payment penalty and let me skip next month&#39;s EMI as well? I do not want this to affect my CIBIL score.&#34;},&#10;    S3: {customerId: &#34;CUST-10073&#34;, inquiryText: &#34;Our textile export business has been hit by a sharp slowdown in export orders. We need to restructure our business term loan BL-2022-0733 (about INR 1.45 Cr outstanding): extend the tenure by 36 months and get a 6-month moratorium on principal.&#34;},&#10;    S4: {customerId: &#34;CUST-10088&#34;, inquiryText: &#34;My course moratorium on the education loan ends in December. When exactly does my EMI start, how much will it be, and can I claim a tax deduction on the interest?&#34;},&#10;    S5: {customerId: &#34;CUST-10091&#34;, inquiryText: &#34;This is unacceptable. Your foreclosure statement for my home loan charges me a 2% foreclosure fee even though it is a floating rate loan. I was promised a callback 6 days ago and nobody called. I want to speak to a manager immediately, otherwise I am filing a complaint with the RBI Banking Ombudsman.&#34;},&#10;    S6: {customerId: &#34;CUST-10105&#34;, inquiryText: &#34;I am planning to buy an apartment in Bengaluru. Am I eligible for a home loan of about INR 75 lakh? My net salary is INR 2.1 lakh per month. I would also like to meet an advisor this week.&#34;},&#10;    S7: {customerId: &#34;CUST-10042&#34;, inquiryText: &#34;I have reviewed the restructuring options. Please go ahead and extend the tenure of my home loan HL-2024-0042 by 24 months so that my EMI comes down. I confirm this request.&#34;},&#10;    S8: {customerId: &#34;CUST-10120&#34;, inquiryText: &#34;I closed my home loan in July but I still have not received the NOC and my original property documents. Also, I am planning to buy a car - am I eligible for a car loan of about INR 12 lakh?&#34;},&#10;    S9: {customerId: &#34;CUST-10134&#34;, inquiryText: &#34;I received my annual bonus and want to prepay part of my loan this month. How much interest will I save and are there any charges?&#34;},&#10;    S10: {customerId: &#34;GUEST&#34;, inquiryText: &#34;Hello, I do not have an account with you yet. What documents do I need to apply for a home loan, what interest rates do you currently offer, and can I transfer my existing home loan from another bank to you?&#34;},&#10;    S11: {customerId: &#34;CUST-10042&#34;, inquiryText: &#34;Can you increase my credit card limit and block my old debit card? Also, when is my next home loan EMI due and how much is it?&#34;},&#10;    S12: {customerId: &#34;CUST-99999&#34;, inquiryText: &#34;Please share the outstanding balance of my personal loan. My customer ID is CUST-99999.&#34;}&#10;  },&#10;  chosen: if demoScenario = null or demoScenario = &#34;CUSTOM&#34; then null else get value(scenarios, demoScenario),&#10;  editedTexts: {S1: inquiry_S1, S2: inquiry_S2, S3: inquiry_S3, S4: inquiry_S4, S5: inquiry_S5, S6: inquiry_S6, S7: inquiry_S7, S8: inquiry_S8, S9: inquiry_S9, S10: inquiry_S10, S11: inquiry_S11, S12: inquiry_S12},&#10;  editedText: if chosen = null then null else get value(editedTexts, demoScenario),&#10;  rawId: if chosen != null then chosen.customerId else if customerId = null then &#34;&#34; else string(customerId),&#10;  byEmail: directory[lower case(item.email) = lower case(rawId)],&#10;  resolvedId: if rawId = &#34;&#34; then &#34;CUST-10042&#34; else if count(byEmail) &#62; 0 then byEmail[1].customerId else upper case(rawId),&#10;  profile: directory[item.customerId = resolvedId],&#10;  effChannel: if channel != null and channel != &#34;&#34; then channel else &#34;PORTAL&#34;,&#10;  effEmail: if chosen = null and customerEmail != null and customerEmail != &#34;&#34; then customerEmail else if count(profile) &#62; 0 then profile[1].email else &#34;unknown.customer@example.com&#34;,&#10;  digits: replace(string(now()), &#34;[^0-9]&#34;, &#34;&#34;),&#10;  result: {&#10;    customerId: if count(profile) &#62; 0 then resolvedId else &#34;UNVERIFIED&#34;,&#10;    customerVerified: count(profile) &#62; 0,&#10;    claimedCustomerId: if matches(rawId, &#34;^CUST-[0-9]+$&#34;, &#34;i&#34;) then upper case(rawId) else &#34;none&#34;,&#10;    customerName: if count(profile) &#62; 0 then profile[1].name else if newCustomerName != null and newCustomerName != &#34;&#34; then newCustomerName else if senderName != null and senderName != &#34;&#34; then senderName else &#34;Valued Customer&#34;,&#10;    customerEmail: effEmail,&#10;    replyToEmail: if ends with(lower case(effEmail), &#34;example.com&#34;) then &#34;rahul.dandotiya@nagarro.com&#34; else effEmail,&#10;    inquiryText: if chosen != null then (if editedText != null and editedText != &#34;&#34; then editedText else chosen.inquiryText) else if inquiryText != null and inquiryText != &#34;&#34; then inquiryText else get value(scenarios, &#34;S1&#34;).inquiryText,&#10;    channel: effChannel,&#10;    demoScenario: if demoScenario != null then demoScenario else &#34;NONE&#34;,&#10;    caseRef: &#34;LS&#34; + substring(digits, 3)&#10;  }&#10;}.result" resultVariable="prepared" />
+        <zeebe:ioMapping>
+          <zeebe:output source="=prepared.customerId" target="customerId" />
+          <zeebe:output source="=prepared.customerName" target="customerName" />
+          <zeebe:output source="=prepared.customerEmail" target="customerEmail" />
+          <zeebe:output source="=prepared.inquiryText" target="inquiryText" />
+          <zeebe:output source="=prepared.channel" target="channel" />
+          <zeebe:output source="=prepared.demoScenario" target="demoScenario" />
+          <zeebe:output source="=prepared.customerVerified" target="customerVerified" />
+          <zeebe:output source="=prepared.claimedCustomerId" target="claimedCustomerId" />
+          <zeebe:output source="=prepared.replyToEmail" target="replyToEmail" />
+          <zeebe:output source="=prepared.caseRef" target="caseRef" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_Start_Prepare</bpmn:incoming>
+      <bpmn:incoming>Flow_Email_Prepare</bpmn:incoming>
+      <bpmn:outgoing>Flow_Prepare_Fetch</bpmn:outgoing>
+    </bpmn:scriptTask>
+    <bpmn:scriptTask id="Task_FetchPastConversations" name="Fetch past conversations with this customer">
+      <bpmn:extensionElements>
+        <zeebe:script expression="={&#10;  targetId: customerId,&#10;  history: [&#10;    {customerId: &#34;CUST-10042&#34;, date: &#34;2026-08-10&#34;, channel: &#34;email&#34;, summary: &#34;Asked about prepayment charges on Home Loan HL-2024-0042. Agent confirmed floating-rate home loans carry no prepayment charge.&#34;},&#10;    {customerId: &#34;CUST-10042&#34;, date: &#34;2026-06-22&#34;, channel: &#34;phone&#34;, summary: &#34;Requested statement of account for tax purposes. Statement dispatched via email.&#34;},&#10;    {customerId: &#34;CUST-10057&#34;, date: &#34;2026-09-08&#34;, channel: &#34;phone&#34;, summary: &#34;Informed the bank that the September EMI on AL-2023-0571 would be late due to a family medical emergency. Bounce charge of INR 590 was levied. Customer promised to pay by month end.&#34;},&#10;    {customerId: &#34;CUST-10073&#34;, date: &#34;2026-09-02&#34;, channel: &#34;email&#34;, summary: &#34;Asked which documents are needed to restructure business term loan BL-2022-0733. Shared the standard checklist (audited financials, GST returns, cash-flow projections).&#34;},&#10;    {customerId: &#34;CUST-10073&#34;, date: &#34;2026-07-15&#34;, channel: &#34;branch&#34;, summary: &#34;Meeting with RM Kavita Desai about working-capital pressure from delayed export receivables.&#34;},&#10;    {customerId: &#34;CUST-10091&#34;, date: &#34;2026-09-22&#34;, channel: &#34;phone&#34;, summary: &#34;Customer escalated complaint CMP-2026-0912 about a 2% foreclosure charge on HL-2020-0655. Agent promised a callback within 48 hours. No callback logged.&#34;},&#10;    {customerId: &#34;CUST-10091&#34;, date: &#34;2026-09-20&#34;, channel: &#34;email&#34;, summary: &#34;Customer requested foreclosure statement for HL-2020-0655 and disputed the foreclosure charge shown on it.&#34;},&#10;    {customerId: &#34;CUST-10091&#34;, date: &#34;2026-06-11&#34;, channel: &#34;branch&#34;, summary: &#34;Gold loan GL-2025-0091 renewed for 6 months.&#34;},&#10;    {customerId: &#34;CUST-10120&#34;, date: &#34;2026-08-02&#34;, channel: &#34;branch&#34;, summary: &#34;Customer paid the final amount and closed home loan HL-2011-0120. Branch promised NOC and original property documents within 15 working days.&#34;},&#10;    {customerId: &#34;CUST-10134&#34;, date: &#34;2026-05-14&#34;, channel: &#34;email&#34;, summary: &#34;Requested the provisional interest certificate for FY 2025-26 for HL-2023-0134. Certificate emailed the same day.&#34;}&#10;  ],&#10;  found: history[item.customerId = targetId],&#10;  result: for c in found return {date: c.date, channel: c.channel, summary: c.summary}&#10;}.result" resultVariable="historyLookup" />
+        <zeebe:ioMapping>
+          <zeebe:output source="=historyLookup" target="pastConversations" />
+          <zeebe:output source="=count(historyLookup)" target="conversationCount" />
+          <zeebe:output source="=string join(for c in historyLookup return &#34;- &#34; + c.date + &#34; (&#34; + c.channel + &#34;): &#34; + c.summary, &#34;\n&#34;)" target="pastConversationSummary" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_Prepare_Fetch</bpmn:incoming>
+      <bpmn:outgoing>Flow_Fetch_Gateway</bpmn:outgoing>
+    </bpmn:scriptTask>
+    <bpmn:exclusiveGateway id="Gateway_ConversationFound" name="Past conversations found?" default="Flow_NotFound_FirstContact">
+      <bpmn:incoming>Flow_Fetch_Gateway</bpmn:incoming>
+      <bpmn:outgoing>Flow_Found_Loop</bpmn:outgoing>
+      <bpmn:outgoing>Flow_NotFound_FirstContact</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:scriptTask id="Task_FirstContact" name="Mark as first-time contact">
+      <bpmn:extensionElements>
+        <zeebe:script expression="=&#34;No prior conversations found. This is the customer&#39;s first recorded contact with loan support.&#34;" resultVariable="pastConversationSummary" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_NotFound_FirstContact</bpmn:incoming>
+      <bpmn:outgoing>Flow_FirstContact_Loop</bpmn:outgoing>
+    </bpmn:scriptTask>
+    <bpmn:exclusiveGateway id="Gateway_AgentLoop">
+      <bpmn:incoming>Flow_Found_Loop</bpmn:incoming>
+      <bpmn:incoming>Flow_FirstContact_Loop</bpmn:incoming>
+      <bpmn:incoming>Flow_Evidence_Loop</bpmn:incoming>
+      <bpmn:outgoing>Flow_Loop_Agent</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="Task_LoanSupportAgent" name="Loan Support Agent (AI)" zeebe:modelerTemplate="io.camunda.connectors.agenticai.aiagent.v1" zeebe:modelerTemplateVersion="7" zeebe:modelerTemplateIcon="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMTYiIGN5PSIxNiIgcj0iMTYiIGZpbGw9IiNBNTZFRkYiLz4KPG1hc2sgaWQ9InBhdGgtMi1vdXRzaWRlLTFfMTg1XzYiIG1hc2tVbml0cz0idXNlclNwYWNlT25Vc2UiIHg9IjQiIHk9IjQiIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iYmxhY2siPgo8cmVjdCBmaWxsPSJ3aGl0ZSIgeD0iNCIgeT0iNCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0Ii8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMjAuMDEwNSAxMi4wOTg3QzE4LjQ5IDEwLjU4OTQgMTcuMTU5NCA4LjEwODE0IDE2LjE3OTkgNi4wMTEwM0MxNi4xNTIgNi4wMDQ1MSAxNi4xMTc2IDYgMTYuMDc5NCA2QzE2LjA0MTEgNiAxNi4wMDY2IDYuMDA0NTEgMTUuOTc4OCA2LjAxMTA0QzE0Ljk5OTQgOC4xMDgxNCAxMy42Njk3IDEwLjU4ODkgMTIuMTQ4MSAxMi4wOTgxQzEwLjYyNjkgMTMuNjA3MSA4LjEyNTY4IDE0LjkyNjQgNi4wMTE1NyAxNS44OTgxQzYuMDA0NzQgMTUuOTI2MSA2IDE1Ljk2MTEgNiAxNkM2IDE2LjAzODcgNi4wMDQ2OCAxNi4wNzM2IDYuMDExNDQgMTYuMTAxNEM4LjEyNTE5IDE3LjA3MjkgMTAuNjI2MiAxOC4zOTE5IDEyLjE0NzcgMTkuOTAxNkMxMy42Njk3IDIxLjQxMDcgMTQuOTk5NiAyMy44OTIgMTUuOTc5MSAyNS45ODlDMTYuMDA2OCAyNS45OTU2IDE2LjA0MTEgMjYgMTYuMDc5MyAyNkMxNi4xMTc1IDI2IDE2LjE1MTkgMjUuOTk1NCAxNi4xNzk2IDI1Ljk4OUMxNy4xNTkxIDIzLjg5MiAxOC40ODg4IDIxLjQxMSAyMC4wMDk5IDE5LjkwMjFNMjAuMDA5OSAxOS45MDIxQzIxLjUyNTMgMTguMzk4NyAyMy45NDY1IDE3LjA2NjkgMjUuOTkxNSAxNi4wODI0QzI1Ljk5NjUgMTYuMDU5MyAyNiAxNi4wMzEgMjYgMTUuOTk5N0MyNiAxNS45Njg0IDI1Ljk5NjUgMTUuOTQwMyAyNS45OTE1IDE1LjkxNzFDMjMuOTQ3NCAxNC45MzI3IDIxLjUyNTkgMTMuNjAxIDIwLjAxMDUgMTIuMDk4NyIvPgo8L21hc2s+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMjAuMDEwNSAxMi4wOTg3QzE4LjQ5IDEwLjU4OTQgMTcuMTU5NCA4LjEwODE0IDE2LjE3OTkgNi4wMTEwM0MxNi4xNTIgNi4wMDQ1MSAxNi4xMTc2IDYgMTYuMDc5NCA2QzE2LjA0MTEgNiAxNi4wMDY2IDYuMDA0NTEgMTUuOTc4OCA2LjAxMTA0QzE0Ljk5OTQgOC4xMDgxNCAxMy42Njk3IDEwLjU4ODkgMTIuMTQ4MSAxMi4wOTgxQzEwLjYyNjkgMTMuNjA3MSA4LjEyNTY4IDE0LjkyNjQgNi4wMTE1NyAxNS44OTgxQzYuMDA0NzQgMTUuOTI2MSA2IDE1Ljk2MTEgNiAxNkM2IDE2LjAzODcgNi4wMDQ2OCAxNi4wNzM2IDYuMDExNDQgMTYuMTAxNEM4LjEyNTE5IDE3LjA3MjkgMTAuNjI2MiAxOC4zOTE5IDEyLjE0NzcgMTkuOTAxNkMxMy42Njk3IDIxLjQxMDcgMTQuOTk5NiAyMy44OTIgMTUuOTc5MSAyNS45ODlDMTYuMDA2OCAyNS45OTU2IDE2LjA0MTEgMjYgMTYuMDc5MyAyNkMxNi4xMTc1IDI2IDE2LjE1MTkgMjUuOTk1NCAxNi4xNzk2IDI1Ljk4OUMxNy4xNTkxIDIzLjg5MiAxOC40ODg4IDIxLjQxMSAyMC4wMDk5IDE5LjkwMjFNMjAuMDA5OSAxOS45MDIxQzIxLjUyNTMgMTguMzk4NyAyMy45NDY1IDE3LjA2NjkgMjUuOTkxNSAxNi4wODI0QzI1Ljk5NjUgMTYuMDU5MyAyNiAxNi4wMzEgMjYgMTUuOTk5N0MyNiAxNS45Njg0IDI1Ljk5NjUgMTUuOTQwMyAyNS45OTE1IDE1LjkxNzFDMjMuOTQ3NCAxNC45MzI3IDIxLjUyNTkgMTMuNjAxIDIwLjAxMDUgMTIuMDk4NyIgZmlsbD0id2hpdGUiLz4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0yMC4wMTA1IDEyLjA5ODdDMTguNDkgMTAuNTg5NCAxNy4xNTk0IDguMTA4MTQgMTYuMTc5OSA2LjAxMTAzQzE2LjE1MiA2LjAwNDUxIDE2LjExNzYgNiAxNi4wNzk0IDZDMTYuMDQxMSA2IDE2LjAwNjYgNi4wMDQ1MSAxNS45Nzg4IDYuMDExMDRDMTQuOTk5NCA4LjEwODE0IDEzLjY2OTcgMTAuNTg4OSAxMi4xNDgxIDEyLjA5ODFDMTAuNjI2OSAxMy42MDcxIDguMTI1NjggMTQuOTI2NCA2LjAxMTU3IDE1Ljg5ODFDNi4wMDQ3NCAxNS45MjYxIDYgMTUuOTYxMSA2IDE2QzYgMTYuMDM4NyA2LjAwNDY4IDE2LjA3MzYgNi4wMTE0NCAxNi4xMDE0QzguMTI1MTkgMTcuMDcyOSAxMC42MjYyIDE4LjM5MTkgMTIuMTQ3NyAxOS45MDE2QzEzLjY2OTcgMjEuNDEwNyAxNC45OTk2IDIzLjg5MiAxNS45NzkxIDI1Ljk4OUMxNi4wMDY4IDI1Ljk5NTYgMTYuMDQxMSAyNiAxNi4wNzkzIDI2QzE2LjExNzUgMjYgMTYuMTUxOSAyNS45OTU0IDE2LjE3OTYgMjUuOTg5QzE3LjE1OTEgMjMuODkyIDE4LjQ4ODggMjEuNDExIDIwLjAwOTkgMTkuOTAyMU0yMC4wMDk5IDE5LjkwMjFDMjEuNTI1MyAxOC4zOTg3IDIzLjk0NjUgMTcuMDY2OSAyNS45OTE1IDE2LjA4MjRDMjUuOTk2NSAxNi4wNTkzIDI2IDE2LjAzMSAyNiAxNS45OTk3QzI2IDE1Ljk2ODQgMjUuOTk2NSAxNS45NDAzIDI1Ljk5MTUgMTUuOTE3MUMyMy45NDc0IDE0LjkzMjcgMjEuNTI1OSAxMy42MDEgMjAuMDEwNSAxMi4wOTg3IiBzdHJva2U9IiM0OTFEOEIiIHN0cm9rZS13aWR0aD0iNCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgbWFzaz0idXJsKCNwYXRoLTItb3V0c2lkZS0xXzE4NV82KSIvPgo8L3N2Zz4K">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="io.camunda.agenticai:aiagent:1" retries="3" />
+        <zeebe:ioMapping>
+          <zeebe:input source="openai" target="provider.type" />
+          <zeebe:input source="=&#34;{{secrets.OPENAI_API_KEY}}&#34;" target="provider.openai.authentication.apiKey" />
+          <zeebe:input source="gpt-4o" target="provider.openai.model.model" />
+          <zeebe:input source="=&#34;You are LoanSupportAgent, an expert banking assistant for a retail bank in India, specialising in loan servicing.\n\nYou help customers with loan status, balances and EMIs, restructuring and tenure extension, prepayment and foreclosure, closed loans and NOC, education-loan repayment, eligibility for new loans, interest rates and documents, meetings with relationship managers, complaints and loan policy questions.\n\nTools available to you:\n- get_customer_master: customer profile (KYC, credit score, risk, RM, branch, income, complaints)\n- get_customer_loans: active loans with balances, rates and EMIs\n- get_legacy_loans: closed loans, NOC / property-document status, repayment track record\n- query_knowledge_base: bank loan policy, rates, documents, charges, eligibility, complaints, out-of-scope handling\n- check_meeting_slots: available slots with the customer&#39;s relationship manager (or the new-customer desk)\n- calculate_loan: deterministic calculator for EMI, total interest, maximum eligible loan (FOIR + LTV), tenure cap by age, and prepayment savings\n- adjust_loan_schedule_sap: book an EMI / tenure change in SAP CML\n- ask_customer_via_email: email the customer a clarifying question; their email reply is returned to you automatically (or a no-reply note after 15 minutes)\n- ask_loan_specialist: ask a human loan specialist for a decision or approval; the specialist may take over the case\n\nRules for VERIFIED customers (Verified customer: YES):\n1. Always call get_customer_master and get_customer_loans first.\n2. Call get_legacy_loans when the inquiry concerns a closed loan, NOC, property documents, past repayment record, or eligibility for a new loan.\n3. Never guess policy, rates, fees or eligibility rules - call query_knowledge_base. Use actual loan IDs, amounts and rates from tool results.\n3a. NEVER do loan arithmetic yourself. Every EMI, interest, eligibility, maximum-loan, LTV or prepayment-savings figure in your answer must come from calculate_loan. Call it once per variant (e.g. separately for 20, 25 and 30 years, or for each loan), using the customer&#39;s real data (age and income from get_customer_master, outstanding and remaining EMIs from get_customer_loans). Quote its figures and mention when the tenure was capped by age or the loan was capped by LTV.\n4. Call adjust_loan_schedule_sap only if the customer explicitly asked you to go ahead with a specific change (e.g. \&#34;please extend my tenure by 24 months, I confirm\&#34;) AND policy allows it. If they only ask about options, explain the options and next steps instead. After a successful booking, tell the customer the SAP reference and that it becomes effective after internal approval.\n5. Call ask_loan_specialist when policy requires human approval: SME / business restructuring above INR 10 lakh, principal moratorium, penalty or charge waivers, relief for overdue (SMA) accounts, complaints mentioning the ombudsman or legal action, or a customer demanding a human. Include a clear question and case summary. Then use the specialist&#39;s answer in your reply.\n6. MISSING INFORMATION - you MUST call ask_customer_via_email, never ask in your final answer. Before writing a final answer, check: can I fully answer every question with the data I have? If not, call ask_customer_via_email first, wait for the reply (it comes back as the tool result), then answer. Typical cases:\n   - the customer has more than one active loan and did not say which one the request is about (never pick one yourself);\n   - a calculation (interest saved, new EMI) needs an amount, tenure or choice they did not give;\n   - it is unclear whether they want to reduce the EMI or the tenure.\n   Example: the customer has HL-2023-0134 and PL-2025-0277 and writes \&#34;I want to prepay part of my loan, how much will I save?\&#34; -&#62; call ask_customer_via_email asking (a) which loan, (b) the prepayment amount, (c) reduce EMI or tenure. Do NOT answer for one loan and do NOT ask in the final answer.\n   Ask all missing questions in one short email. Never ask for information you can look up with a tool. If the tool result says the customer did not reply, give the best general answer (options, charges, an example calculation clearly labelled as an example) and state what you still need.\n7. If the customer asks to meet, call or speak with an advisor, call check_meeting_slots and propose two concrete slots.\n8. If part of the request is outside loans (credit or debit cards, savings accounts, investments, insurance), answer the loan part fully and, using query_knowledge_base, tell them where to go for the rest.\n\nRules for UNVERIFIED senders (Verified customer: NO - the sender could not be matched to a customer record):\n- Do not call get_customer_master, get_customer_loans, get_legacy_loans, adjust_loan_schedule_sap or ask_customer_via_email.\n- Never state, guess or confirm any account details (loan IDs, balances, EMIs, statuses, charges).\n- Answer general questions (policies, rates, documents, eligibility for a new loan, balance transfer, EMI calculations) using query_knowledge_base and calculate_loan (using only numbers the sender gave), and offer a meeting using check_meeting_slots when useful. Treat them as a prospective customer.\n- If they need account-specific information or a change to a loan, explain politely that you could not match them to a customer record, and ask them to send a new email to dandotiya9722+camunda@gmail.com with their Customer ID in the format CUST-12345, or to contact their branch.\n- If a Customer ID was mentioned but the customer is not verified, say this ID could not be found and ask them to double-check it.\n- Only call ask_loan_specialist if the message is a complaint mentioning the ombudsman or legal action.\n\nFinal answer (sent to the customer as a plain-text email body):\n- The final answer must fully answer every question with concrete figures where they were asked for. It must NOT ask the customer to provide details (use ask_customer_via_email for that, see rule 6). Exception: unverified senders may be asked for their Customer ID.\n- Address the customer by the FIRST NAME OF THE CUSTOMER RECORD, i.e. the Name given under &#39;## Customer&#39; in the request / fullName from get_customer_master. Never use a name taken from an email signature or the message body (the person who typed the email may sign differently). If the name is &#39;Valued Customer&#39;, write &#39;Dear Customer&#39;. Be clear, empathetic and specific. End with concrete next steps.\n- Plain text only: no markdown, asterisks, # headings or tables. No internal reasoning, tool names or JSON.\n- Sign off as &#39;Loan Support Team&#39;.&#34;" target="data.systemPrompt.prompt" />
+          <zeebe:input source="=&#34;## Customer Inquiry\n&#34; + inquiryText&#10;  + &#34;\n\n## Customer\nVerified customer: &#34; + (if customerVerified = true then &#34;YES&#34; else &#34;NO&#34;)&#10;  + &#34;\nCustomer ID: &#34; + customerId&#10;  + &#34;\nCustomer ID mentioned in the inquiry: &#34; + (if claimedCustomerId = null then &#34;none&#34; else claimedCustomerId)&#10;  + &#34;\nName: &#34; + customerName&#10;  + &#34;\nEmail: &#34; + customerEmail&#10;  + &#34;\nChannel: &#34; + channel&#10;  + &#34;\n\n## Past Conversation History\n&#34; + pastConversationSummary" target="data.userPrompt.prompt" />
+          <zeebe:input source="SubProcess_AgentTools" target="data.tools.containerElementId" />
+          <zeebe:input source="=toolCallResults" target="data.tools.toolCallResults" />
+          <zeebe:input source="=agent.context" target="data.context" />
+          <zeebe:input source="in-process" target="data.memory.storage.type" />
+          <zeebe:input source="=40" target="data.memory.contextWindowSize" />
+          <zeebe:input source="=15" target="data.limits.maxModelCalls" />
+          <zeebe:input source="text" target="data.response.format.type" />
+          <zeebe:input source="=false" target="data.response.format.parseJson" />
+          <zeebe:input source="=false" target="data.response.includeAssistantMessage" />
+        </zeebe:ioMapping>
+        <zeebe:taskHeaders>
+          <zeebe:header key="elementTemplateVersion" value="7" />
+          <zeebe:header key="elementTemplateId" value="io.camunda.connectors.agenticai.aiagent.v1" />
+          <zeebe:header key="resultVariable" value="agent" />
+          <zeebe:header key="retryBackoff" value="PT5S" />
+        </zeebe:taskHeaders>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_Loop_Agent</bpmn:incoming>
+      <bpmn:outgoing>Flow_Agent_ToolGateway</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_ToolCalls" name="Agent requested tools?" default="Flow_NoToolCalls_Judge">
+      <bpmn:incoming>Flow_Agent_ToolGateway</bpmn:incoming>
+      <bpmn:outgoing>Flow_ToolCalls_Tools</bpmn:outgoing>
+      <bpmn:outgoing>Flow_NoToolCalls_Judge</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:adHocSubProcess id="SubProcess_AgentTools" name="Loan Support Agent - Tools">
+      <bpmn:extensionElements>
+        <zeebe:properties>
+          <zeebe:property name="io.camunda.agenticai.toolContainer" value="true" />
+        </zeebe:properties>
+        <zeebe:adHoc activeElementsCollection="=[toolCall._meta.name]" />
+        <zeebe:ioMapping>
+          <zeebe:input source="=null" target="toolCallResult" />
+          <zeebe:input source="=false" target="escalateToHuman" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_ToolCalls_Tools</bpmn:incoming>
+      <bpmn:outgoing>Flow_Tools_Loop</bpmn:outgoing>
+      <bpmn:multiInstanceLoopCharacteristics>
+        <bpmn:extensionElements>
+          <zeebe:loopCharacteristics inputCollection="=agent.toolCalls" inputElement="toolCall" outputCollection="toolCallResults" outputElement="={id: toolCall._meta.id, name: toolCall._meta.name, content: toolCallResult}" />
+        </bpmn:extensionElements>
+      </bpmn:multiInstanceLoopCharacteristics>
+      <bpmn:scriptTask id="get_customer_master" name="Load customer master data">
+        <bpmn:documentation>Returns the customer profile: name, KYC status, credit score, risk category, segment, relationship manager, branch, income and open complaints.</bpmn:documentation>
+        <bpmn:extensionElements>
+          <zeebe:script expression="={&#10;  wantedId: upper case(lookupId),&#10;  wantedEmail: lower case(lookupId),&#10;  customers: [&#10;    {customerId: &#34;CUST-10042&#34;, fullName: &#34;John Doe&#34;, dateOfBirth: &#34;1984-06-12&#34;, ageYears: 42, email: &#34;john.doe@example.com&#34;, phone: &#34;+91-98765-43210&#34;, kycStatus: &#34;VERIFIED&#34;, creditScore: 742, riskCategory: &#34;LOW&#34;, segment: &#34;MASS_AFFLUENT&#34;, relationshipManager: &#34;Priya Sharma&#34;, branch: &#34;Mumbai - Bandra West&#34;, customerSince: &#34;2018-03-15&#34;, monthlyNetIncomeINR: 185000, totalLoanExposureINR: 4007500, openComplaints: 0},&#10;    {customerId: &#34;CUST-10057&#34;, fullName: &#34;Aisha Khan&#34;, dateOfBirth: &#34;1991-02-03&#34;, ageYears: 35, email: &#34;aisha.khan@example.com&#34;, phone: &#34;+91-98220-11457&#34;, kycStatus: &#34;VERIFIED&#34;, creditScore: 618, riskCategory: &#34;MEDIUM&#34;, segment: &#34;MASS&#34;, relationshipManager: &#34;Ankit Patel&#34;, branch: &#34;Pune - Koregaon Park&#34;, customerSince: &#34;2020-01-20&#34;, monthlyNetIncomeINR: 72000, totalLoanExposureINR: 425000, openComplaints: 0},&#10;    {customerId: &#34;CUST-10073&#34;, fullName: &#34;Rahul Mehta&#34;, dateOfBirth: &#34;1976-11-21&#34;, ageYears: 49, email: &#34;rahul.mehta@mehtatextiles.example.com&#34;, phone: &#34;+91-99250-73073&#34;, kycStatus: &#34;VERIFIED&#34;, creditScore: 701, riskCategory: &#34;MEDIUM&#34;, segment: &#34;SME&#34;, businessName: &#34;Mehta Textiles Pvt Ltd&#34;, relationshipManager: &#34;Kavita Desai&#34;, branch: &#34;Surat - Ring Road&#34;, customerSince: &#34;2015-09-01&#34;, totalLoanExposureINR: 20700000, openComplaints: 0},&#10;    {customerId: &#34;CUST-10088&#34;, fullName: &#34;Sneha Iyer&#34;, dateOfBirth: &#34;2000-04-17&#34;, ageYears: 26, email: &#34;sneha.iyer@example.com&#34;, phone: &#34;+91-94440-88088&#34;, kycStatus: &#34;VERIFIED&#34;, creditScore: 688, riskCategory: &#34;LOW&#34;, segment: &#34;YOUNG_PROFESSIONAL&#34;, relationshipManager: &#34;Arvind Rao&#34;, branch: &#34;Chennai - Adyar&#34;, customerSince: &#34;2022-07-11&#34;, coApplicant: &#34;R. Iyer (father)&#34;, totalLoanExposureINR: 1162000, openComplaints: 0},&#10;    {customerId: &#34;CUST-10091&#34;, fullName: &#34;Vikram Singh&#34;, dateOfBirth: &#34;1972-08-09&#34;, ageYears: 54, email: &#34;vikram.singh@example.com&#34;, phone: &#34;+91-98110-91091&#34;, kycStatus: &#34;RE-KYC DUE BY 2026-10-31&#34;, creditScore: 655, riskCategory: &#34;MEDIUM&#34;, segment: &#34;MASS_AFFLUENT&#34;, relationshipManager: &#34;Neha Kapoor&#34;, branch: &#34;New Delhi - Connaught Place&#34;, customerSince: &#34;2016-04-02&#34;, totalLoanExposureINR: 2470000, openComplaints: 1, openComplaintId: &#34;CMP-2026-0912&#34;},&#10;    {customerId: &#34;CUST-10105&#34;, fullName: &#34;Meera Nair&#34;, dateOfBirth: &#34;1992-03-15&#34;, ageYears: 34, email: &#34;meera.nair@example.com&#34;, phone: &#34;+91-99000-10105&#34;, kycStatus: &#34;VERIFIED&#34;, creditScore: 781, riskCategory: &#34;LOW&#34;, segment: &#34;SALARIED_PREMIUM&#34;, employment: &#34;Salaried - IT services, 9 years experience&#34;, relationshipManager: &#34;Rohan Kulkarni&#34;, branch: &#34;Bengaluru - Indiranagar&#34;, customerSince: &#34;2021-05-10&#34;, monthlyNetIncomeINR: 210000, existingEmisINR: 0, totalLoanExposureINR: 0, openComplaints: 0},&#10;    {customerId: &#34;CUST-10120&#34;, fullName: &#34;Farhan Sheikh&#34;, dateOfBirth: &#34;1980-12-02&#34;, ageYears: 45, email: &#34;farhan.sheikh@example.com&#34;, phone: &#34;+91-98490-10120&#34;, kycStatus: &#34;VERIFIED&#34;, creditScore: 765, riskCategory: &#34;LOW&#34;, segment: &#34;SALARIED_PREMIUM&#34;, employment: &#34;Salaried - pharmaceutical company, 14 years experience&#34;, relationshipManager: &#34;Lakshmi Reddy&#34;, branch: &#34;Hyderabad - Banjara Hills&#34;, customerSince: &#34;2011-02-18&#34;, monthlyNetIncomeINR: 165000, existingEmisINR: 0, totalLoanExposureINR: 0, openComplaints: 0},&#10;    {customerId: &#34;CUST-10134&#34;, fullName: &#34;Kavya Menon&#34;, dateOfBirth: &#34;1988-07-25&#34;, ageYears: 38, email: &#34;kavya.menon@example.com&#34;, phone: &#34;+91-94470-10134&#34;, kycStatus: &#34;VERIFIED&#34;, creditScore: 724, riskCategory: &#34;LOW&#34;, segment: &#34;MASS_AFFLUENT&#34;, employment: &#34;Salaried - logistics company&#34;, relationshipManager: &#34;Joseph Mathew&#34;, branch: &#34;Kochi - MG Road&#34;, customerSince: &#34;2019-08-05&#34;, monthlyNetIncomeINR: 140000, totalLoanExposureINR: 4560000, openComplaints: 0}&#10;  ],&#10;  matches: customers[item.customerId = wantedId or lower case(item.email) = wantedEmail],&#10;  result: if count(matches) &#62; 0 then matches[1] else {error: &#34;CUSTOMER_NOT_FOUND&#34;, message: &#34;No customer master record found for the given ID or email.&#34;}&#10;}.result" resultVariable="toolCallResult" />
+          <zeebe:ioMapping>
+            <zeebe:input source="=fromAi(toolCall.customerId, &#34;Customer ID such as CUST-10042, or the customer email address&#34;, &#34;string&#34;)" target="lookupId" />
+            <zeebe:output source="=toolCallResult" target="toolCallResult" />
+          </zeebe:ioMapping>
+        </bpmn:extensionElements>
+      </bpmn:scriptTask>
+      <bpmn:scriptTask id="get_customer_loans" name="Load customer loans">
+        <bpmn:documentation>Returns all active loans of the customer with outstanding balance, interest rate, EMI, EMIs remaining, overdue days and status.</bpmn:documentation>
+        <bpmn:extensionElements>
+          <zeebe:script expression="={&#10;  wantedId: upper case(lookupId),&#10;  loans: [&#10;    {customerId: &#34;CUST-10042&#34;, loanId: &#34;HL-2024-0042&#34;, type: &#34;Home Loan&#34;, status: &#34;ACTIVE&#34;, sanctionedAmount: 5000000, outstandingBalance: 3820000, currency: &#34;INR&#34;, interestRate: 8.65, rateType: &#34;FLOATING&#34;, benchmark: &#34;EBLR + 0.50%&#34;, tenureMonths: 240, emiAmount: 35289, emisPaid: 29, emisRemaining: 211, nextEmiDate: &#34;2026-10-05&#34;, maturityDate: &#34;2044-03-01&#34;, overdueDays: 0},&#10;    {customerId: &#34;CUST-10042&#34;, loanId: &#34;PL-2023-0188&#34;, type: &#34;Personal Loan&#34;, status: &#34;ACTIVE&#34;, sanctionedAmount: 500000, outstandingBalance: 187500, currency: &#34;INR&#34;, interestRate: 13.5, rateType: &#34;FIXED&#34;, tenureMonths: 36, emiAmount: 12179, emisPaid: 19, emisRemaining: 17, nextEmiDate: &#34;2026-10-10&#34;, overdueDays: 0},&#10;    {customerId: &#34;CUST-10057&#34;, loanId: &#34;AL-2023-0571&#34;, type: &#34;Auto Loan&#34;, status: &#34;ACTIVE - OVERDUE&#34;, sanctionedAmount: 750000, outstandingBalance: 425000, currency: &#34;INR&#34;, interestRate: 9.75, rateType: &#34;FIXED&#34;, tenureMonths: 60, emiAmount: 16020, emisPaid: 30, emisRemaining: 30, missedEmis: 1, overdueDays: 38, assetClassification: &#34;SMA-1&#34;, penalChargesDueINR: 1210, bounceChargesDueINR: 590, nextEmiDate: &#34;2026-10-07&#34;},&#10;    {customerId: &#34;CUST-10073&#34;, loanId: &#34;BL-2022-0733&#34;, type: &#34;Business Term Loan&#34;, status: &#34;ACTIVE&#34;, sanctionedAmount: 20000000, outstandingBalance: 14500000, currency: &#34;INR&#34;, interestRate: 10.4, rateType: &#34;FLOATING&#34;, benchmark: &#34;MCLR + 1.25%&#34;, tenureMonths: 84, emiAmount: 337376, emisPaid: 30, emisRemaining: 54, nextEmiDate: &#34;2026-10-01&#34;, overdueDays: 0, earlyWarningSignals: &#34;2 cheque returns in working-capital account in last 60 days&#34;},&#10;    {customerId: &#34;CUST-10073&#34;, loanId: &#34;LAP-2021-0310&#34;, type: &#34;Loan Against Property&#34;, status: &#34;ACTIVE&#34;, sanctionedAmount: 8000000, outstandingBalance: 6200000, currency: &#34;INR&#34;, interestRate: 9.6, rateType: &#34;FLOATING&#34;, tenureMonths: 180, emiAmount: 79779, emisPaid: 58, emisRemaining: 122, nextEmiDate: &#34;2026-10-05&#34;, overdueDays: 0},&#10;    {customerId: &#34;CUST-10088&#34;, loanId: &#34;EL-2022-0888&#34;, type: &#34;Education Loan&#34;, status: &#34;MORATORIUM&#34;, sanctionedAmount: 1200000, disbursedAmount: 1050000, outstandingBalanceInclAccruedInterest: 1162000, currency: &#34;INR&#34;, interestRate: 9.25, rateType: &#34;FLOATING&#34;, moratoriumEndDate: &#34;2026-12-31&#34;, repaymentTenureMonths: 120, estimatedEmiAmount: 14877, firstEmiDate: &#34;2027-01-05&#34;, overdueDays: 0},&#10;    {customerId: &#34;CUST-10091&#34;, loanId: &#34;HL-2020-0655&#34;, type: &#34;Home Loan&#34;, status: &#34;FORECLOSURE REQUESTED&#34;, sanctionedAmount: 3500000, outstandingBalance: 2150000, currency: &#34;INR&#34;, interestRate: 8.9, rateType: &#34;FLOATING&#34;, tenureMonths: 240, emiAmount: 24839, emisRemaining: 139, foreclosureStatement: {principal: 2150000, accruedInterest: 7960, foreclosureChargeApplied: 43000, totalPayable: 2200960, generatedOn: &#34;2026-09-20&#34;}, overdueDays: 0},&#10;    {customerId: &#34;CUST-10091&#34;, loanId: &#34;GL-2025-0091&#34;, type: &#34;Gold Loan&#34;, status: &#34;ACTIVE&#34;, sanctionedAmount: 320000, outstandingBalance: 320000, currency: &#34;INR&#34;, interestRate: 9.5, repayment: &#34;Bullet at maturity&#34;, maturityDate: &#34;2026-12-15&#34;, overdueDays: 0},&#10;    {customerId: &#34;CUST-10134&#34;, loanId: &#34;HL-2023-0134&#34;, type: &#34;Home Loan&#34;, status: &#34;ACTIVE&#34;, sanctionedAmount: 5000000, outstandingBalance: 4250000, currency: &#34;INR&#34;, interestRate: 8.75, rateType: &#34;FLOATING&#34;, benchmark: &#34;EBLR + 0.60%&#34;, tenureMonths: 240, emiAmount: 40098, emisPaid: 36, emisRemaining: 204, nextEmiDate: &#34;2026-10-05&#34;, overdueDays: 0},&#10;    {customerId: &#34;CUST-10134&#34;, loanId: &#34;PL-2025-0277&#34;, type: &#34;Personal Loan&#34;, status: &#34;ACTIVE&#34;, sanctionedAmount: 400000, outstandingBalance: 310000, currency: &#34;INR&#34;, interestRate: 14.0, rateType: &#34;FIXED&#34;, disbursalDate: &#34;2025-11-20&#34;, tenureMonths: 36, emiAmount: 13892, emisPaid: 10, emisRemaining: 26, nextEmiDate: &#34;2026-10-10&#34;, overdueDays: 0}&#10;  ],&#10;  found: loans[item.customerId = wantedId],&#10;  knownIds: [&#34;CUST-10042&#34;, &#34;CUST-10057&#34;, &#34;CUST-10073&#34;, &#34;CUST-10088&#34;, &#34;CUST-10091&#34;, &#34;CUST-10105&#34;, &#34;CUST-10120&#34;, &#34;CUST-10134&#34;],&#10;  result: if not(list contains(knownIds, wantedId)) then {error: &#34;CUSTOMER_NOT_FOUND&#34;, message: &#34;No customer record exists for this ID. Do not share or guess any account details.&#34;} else {customerId: wantedId, activeLoanCount: count(found), loans: found, note: if count(found) = 0 then &#34;Customer has no active loans with the bank.&#34; else &#34;Active loan book returned.&#34;}&#10;}.result" resultVariable="toolCallResult" />
+          <zeebe:ioMapping>
+            <zeebe:input source="=fromAi(toolCall.customerId, &#34;Customer ID such as CUST-10042&#34;, &#34;string&#34;)" target="lookupId" />
+            <zeebe:output source="=toolCallResult" target="toolCallResult" />
+          </zeebe:ioMapping>
+        </bpmn:extensionElements>
+      </bpmn:scriptTask>
+      <bpmn:scriptTask id="get_legacy_loans" name="Load legacy loan data">
+        <bpmn:documentation>Returns closed / historical loans of the customer: closure date, NOC and property-document status, and repayment track record. Use for questions about closed loans, NOC, property documents, or to assess eligibility for a new loan.</bpmn:documentation>
+        <bpmn:extensionElements>
+          <zeebe:script expression="={&#10;  wantedId: upper case(lookupId),&#10;  legacy: [&#10;    {customerId: &#34;CUST-10042&#34;, loanId: &#34;VL-2019-0931&#34;, type: &#34;Vehicle Loan&#34;, status: &#34;CLOSED&#34;, originalAmount: 800000, currency: &#34;INR&#34;, closedDate: &#34;2022-11-30&#34;, noc: &#34;ISSUED 2022-12-05&#34;, repaymentHistory: &#34;EXCELLENT - zero defaults&#34;},&#10;    {customerId: &#34;CUST-10057&#34;, loanId: &#34;TW-2020-0144&#34;, type: &#34;Two-Wheeler Loan&#34;, status: &#34;CLOSED&#34;, originalAmount: 95000, currency: &#34;INR&#34;, closedDate: &#34;2022-08-31&#34;, noc: &#34;ISSUED&#34;, repaymentHistory: &#34;FAIR - 2 late payments under 15 days&#34;},&#10;    {customerId: &#34;CUST-10073&#34;, loanId: &#34;WCTL-2018-0211&#34;, type: &#34;Working Capital Term Loan&#34;, status: &#34;CLOSED&#34;, originalAmount: 5000000, currency: &#34;INR&#34;, closedDate: &#34;2021-03-31&#34;, repaymentHistory: &#34;GOOD - one restructuring under COVID-19 resolution framework in 2020&#34;},&#10;    {customerId: &#34;CUST-10091&#34;, loanId: &#34;PL-2017-0045&#34;, type: &#34;Personal Loan&#34;, status: &#34;CLOSED&#34;, originalAmount: 300000, currency: &#34;INR&#34;, closedDate: &#34;2020-02-28&#34;, repaymentHistory: &#34;GOOD&#34;},&#10;    {customerId: &#34;CUST-10120&#34;, loanId: &#34;HL-2011-0120&#34;, type: &#34;Home Loan&#34;, status: &#34;CLOSED&#34;, originalAmount: 2500000, currency: &#34;INR&#34;, closedDate: &#34;2026-07-31&#34;, noc: &#34;GENERATED 2026-08-11 - NOT YET DISPATCHED&#34;, originalPropertyDocuments: &#34;Held at Hyderabad Banjara Hills branch vault - ready for collection since 2026-08-20&#34;, repaymentHistory: &#34;EXCELLENT - 180 EMIs, zero defaults&#34;},&#10;    {customerId: &#34;CUST-10120&#34;, loanId: &#34;VL-2016-0412&#34;, type: &#34;Vehicle Loan&#34;, status: &#34;CLOSED&#34;, originalAmount: 650000, currency: &#34;INR&#34;, closedDate: &#34;2021-03-31&#34;, noc: &#34;ISSUED 2021-04-06&#34;, repaymentHistory: &#34;EXCELLENT - zero defaults&#34;},&#10;    {customerId: &#34;CUST-10134&#34;, loanId: &#34;EL-2012-0981&#34;, type: &#34;Education Loan&#34;, status: &#34;CLOSED&#34;, originalAmount: 450000, currency: &#34;INR&#34;, closedDate: &#34;2018-09-30&#34;, repaymentHistory: &#34;GOOD - one EMI paid 5 days late in 2016&#34;}&#10;  ],&#10;  found: legacy[item.customerId = wantedId],&#10;  knownIds: [&#34;CUST-10042&#34;, &#34;CUST-10057&#34;, &#34;CUST-10073&#34;, &#34;CUST-10088&#34;, &#34;CUST-10091&#34;, &#34;CUST-10105&#34;, &#34;CUST-10120&#34;, &#34;CUST-10134&#34;],&#10;  result: if not(list contains(knownIds, wantedId)) then {error: &#34;CUSTOMER_NOT_FOUND&#34;, message: &#34;No customer record exists for this ID.&#34;} else {customerId: wantedId, closedLoanCount: count(found), legacyLoans: found}&#10;}.result" resultVariable="toolCallResult" />
+          <zeebe:ioMapping>
+            <zeebe:input source="=fromAi(toolCall.customerId, &#34;Customer ID such as CUST-10042&#34;, &#34;string&#34;)" target="lookupId" />
+            <zeebe:output source="=toolCallResult" target="toolCallResult" />
+          </zeebe:ioMapping>
+        </bpmn:extensionElements>
+      </bpmn:scriptTask>
+      <bpmn:scriptTask id="query_knowledge_base" name="Query loan policy knowledge base">
+        <bpmn:documentation>Returns the bank's loan policy articles: restructuring, EMI formula, prepayment / part-prepayment and foreclosure charges, penal charges, education loans, eligibility (home and car loans), interest rates, application documents, balance transfer, NOC and property documents, statements, complaints, meetings and out-of-scope requests.</bpmn:documentation>
+        <bpmn:extensionElements>
+          <zeebe:script expression="={&#10;  question: question,&#10;  source: &#34;DEMO loan policy knowledge base - illustrative figures only&#34;,&#10;  articles: [&#10;    {topic: &#34;Tenure extension / EMI reduction (retail)&#34;, policy: &#34;Home loan tenure can be extended up to 30 years from sanction or until borrower age 65, whichever is earlier. Requires Form LS-12. Processing 5-7 working days. No fee for first restructuring. Customer must be KYC verified, credit score 650 or above, account not NPA, no pending restructuring request. The agent may book the change in SAP only after the customer explicitly asks to proceed.&#34;},&#10;    {topic: &#34;EMI formula&#34;, policy: &#34;EMI = P x r x (1+r)^n / ((1+r)^n - 1), r = annual rate / 12 / 100, n = remaining months. Example: HL-2024-0042 (outstanding INR 38,20,000, 211 EMIs left, current EMI INR 35,289) extended by 24 months (235 months at 8.65%) gives an EMI of about INR 33,783, saving about INR 1,506 per month but increasing total interest paid. Always use the calculate_loan tool for EMI figures.&#34;},&#10;    {topic: &#34;Prepayment and foreclosure charges&#34;, policy: &#34;Floating-rate term loans to individual borrowers (e.g. floating home loans): NO prepayment or foreclosure charge may be levied. Fixed-rate home loans: 2% of amount prepaid. Personal loans: 3% if closed within 12 months of disbursal, nil after. Any foreclosure charge applied to a floating-rate individual home loan is an error and must be reversed by a human operations officer.&#34;},&#10;    {topic: &#34;Business loan restructuring&#34;, policy: &#34;Restructuring of any SME / business exposure above INR 10 lakh, or any moratorium on principal, requires credit committee approval and a human relationship manager. The AI agent must NOT book such changes in SAP; it must hand over to a loan specialist.&#34;},&#10;    {topic: &#34;Missed EMIs, penal charges and credit reporting&#34;, policy: &#34;Penal charges of 2% p.a. on the overdue amount (not compounded) plus an EMI bounce charge of INR 590 incl. GST. Accounts 31-60 days overdue are classified SMA-1 and reported to credit bureaus monthly. A one-time waiver of penal/bounce charges for documented medical hardship can only be approved by the branch manager.&#34;},&#10;    {topic: &#34;EMI holiday / skipping EMIs&#34;, policy: &#34;Retail loans do not allow skipping an EMI. Relief is only possible via formal restructuring (tenure extension) after the overdue amount is cleared, and requires human approval when the account is already SMA-1 or worse.&#34;},&#10;    {topic: &#34;Education loan repayment&#34;, policy: &#34;Moratorium = course period + 12 months or 6 months after employment, whichever is earlier. Simple interest accrues during moratorium and is added to principal. EMI starts on the 5th of the month after moratorium ends. Interest paid is deductible under Section 80E of the Income Tax Act for up to 8 years with no upper limit (old tax regime).&#34;},&#10;    {topic: &#34;Home loan eligibility (new borrowers)&#34;, policy: &#34;Maximum FOIR (all EMIs / net monthly income) 55% for salaried customers with credit score 750+. Maximum tenure: 30 years, and the loan must end by the borrower&#39;s age 60, so maximum tenure = the lower of 30 years and (60 - current age). Loan-to-value (LTV) slabs by loan amount: loans up to and including INR 30 lakh - max 90% of property value; above INR 30 lakh up to and including INR 75 lakh - max 80%; above INR 75 lakh - max 75%. Because of the slabs, LTV can cap the loan even when income supports more. Example: property value INR 95 lakh - a loan of INR 75 lakh is allowed (80% slab, limit INR 76 lakh), but any amount above INR 75 lakh falls in the 75% slab (limit INR 71.25 lakh), so the maximum loan is INR 75 lakh. Always use the calculate_loan tool for eligibility figures. Indicative rate 8.40% (score 780+) to 9.15%. At 8.40% over 25 years, a loan of INR 75L has an EMI of about INR 59,900.&#34;},&#10;    {topic: &#34;Complaints and grievance handling&#34;, policy: &#34;Any complaint mentioning the Banking Ombudsman, legal action, or an explicit request to speak with a human manager must be handed to a human immediately. Missed callback commitments must be acknowledged with an apology. Customers may approach the RBI Integrated Ombudsman if not resolved within 30 days.&#34;},&#10;    {topic: &#34;Meetings with advisors&#34;, policy: &#34;Customers can meet their relationship manager by video call or in branch. Business-loan restructuring discussions must be in branch with the RM.&#34;},&#10;    {topic: &#34;Part-prepayment of loans&#34;, policy: &#34;Floating-rate home loans: part-prepayment allowed any time, minimum one EMI amount, no charge. Personal loans: part-prepayment allowed after 6 EMIs are paid, maximum 25% of outstanding per year, charge 3% of the prepaid amount if within 12 months of disbursal, nil after 12 months. The customer chooses to reduce the EMI or the tenure. Interest saved must be presented as an approximate estimate. To calculate savings the agent needs the specific loan and the prepayment amount - if the customer has more than one loan and did not say which, or did not give an amount, ask them by email.&#34;},&#10;    {topic: &#34;Indicative interest rates (October 2026)&#34;, policy: &#34;Home loan 8.40% to 9.15% floating (EBLR-linked, by credit score). Home loan balance transfer from 8.35%. Loan against property 9.25% to 10.50%. Car loan 8.85% to 10.50%. Personal loan 10.99% to 16.00% fixed. Education loan 8.50% to 11.00%. Gold loan 9.00% to 12.00%. Rates are indicative and subject to credit assessment.&#34;},&#10;    {topic: &#34;Home loan application documents&#34;, policy: &#34;KYC: PAN card and Aadhaar or passport. Income (salaried): last 3 salary slips, 6 months bank statements, Form 16. Income (self-employed): 2 years ITR with computation, audited financials, 12 months bank statements. Property: sale agreement, title deeds chain, approved building plan, allotment letter for under-construction property. Processing fee 0.50% of the loan, maximum INR 10,000 plus GST.&#34;},&#10;    {topic: &#34;Home loan balance transfer&#34;, policy: &#34;Customers of other banks can transfer an existing home loan after at least 12 EMIs with no overdue in the last 12 months. Required: foreclosure letter and sanction letter from the current lender, 12 months loan account statement, plus the standard application documents. A top-up loan of up to INR 25 lakh can be added. Processing takes 7 to 10 working days.&#34;},&#10;    {topic: &#34;Car loan eligibility&#34;, policy: &#34;Salaried customers with credit score 700+: up to 90% of on-road price, tenure up to 7 years, FOIR (all EMIs including the new car EMI divided by net monthly income) up to 55%. Indicative rate 8.85% to 10.50%. Existing customers with an excellent repayment track record (closed loans with zero defaults) get a 0.25% rate concession. At 9.00% over 5 years, a loan of INR 12 lakh has an EMI of about INR 24,900.&#34;},&#10;    {topic: &#34;Loan closure, NOC and property documents&#34;, policy: &#34;NOC is issued within 15 working days of loan closure. Original property documents must be returned within 30 days of closure; the customer may collect them at the branch or have them couriered. If documents are not returned within 30 days, the bank pays compensation of INR 5,000 per day of delay (RBI guidance, 2023). The agent may confirm status from loan records, apologise for delays, and tell the customer how to collect them; a compensation claim is processed by the branch.&#34;},&#10;    {topic: &#34;Statements, certificates and EMI date change&#34;, policy: &#34;Statement of account and interest certificate: available in net banking or emailed within 24 hours on request. EMI date can be changed once per year to the 5th, 10th or 15th; broken-period interest applies. NACH / auto-debit mandate change takes 7 working days.&#34;},&#10;    {topic: &#34;Out-of-scope requests&#34;, policy: &#34;Loan support handles loans only. Credit cards (limits, blocking), debit cards, savings accounts, deposits, investments and insurance are handled by Customer Care at 1800-123-4567 (demo number, 24x7) or in net banking. To block a lost card immediately, the customer should use net banking / mobile app or call Customer Care. The agent must still answer any loan-related part of the message.&#34;}&#10;  ]&#10;}" resultVariable="toolCallResult" />
+          <zeebe:ioMapping>
+            <zeebe:input source="=fromAi(toolCall.question, &#34;The policy question you need answered&#34;, &#34;string&#34;)" target="question" />
+            <zeebe:output source="=toolCallResult" target="toolCallResult" />
+          </zeebe:ioMapping>
+        </bpmn:extensionElements>
+      </bpmn:scriptTask>
+      <bpmn:scriptTask id="check_meeting_slots" name="Inquire about availability for a meeting">
+        <bpmn:documentation>Returns available meeting slots with the customer's relationship manager (video call or in branch).</bpmn:documentation>
+        <bpmn:extensionElements>
+          <zeebe:script expression="={&#10;  wantedId: upper case(lookupId),&#10;  rms: [&#10;    {customerId: &#34;CUST-10042&#34;, rm: &#34;Priya Sharma&#34;}, {customerId: &#34;CUST-10057&#34;, rm: &#34;Ankit Patel&#34;},&#10;    {customerId: &#34;CUST-10073&#34;, rm: &#34;Kavita Desai&#34;}, {customerId: &#34;CUST-10088&#34;, rm: &#34;Arvind Rao&#34;},&#10;    {customerId: &#34;CUST-10091&#34;, rm: &#34;Neha Kapoor&#34;}, {customerId: &#34;CUST-10105&#34;, rm: &#34;Rohan Kulkarni&#34;},&#10;    {customerId: &#34;CUST-10120&#34;, rm: &#34;Lakshmi Reddy&#34;}, {customerId: &#34;CUST-10134&#34;, rm: &#34;Joseph Mathew&#34;}&#10;  ],&#10;  match: rms[item.customerId = wantedId],&#10;  rmName: if count(match) &#62; 0 then match[1].rm else &#34;Next available advisor&#34;,&#10;  slots: [&#10;    {advisor: &#34;Priya Sharma&#34;, date: &#34;2026-09-30&#34;, time: &#34;10:00 AM IST&#34;, mode: &#34;Video call&#34;},&#10;    {advisor: &#34;Priya Sharma&#34;, date: &#34;2026-09-30&#34;, time: &#34;03:00 PM IST&#34;, mode: &#34;In branch - Mumbai Bandra West&#34;},&#10;    {advisor: &#34;Ankit Patel&#34;, date: &#34;2026-10-01&#34;, time: &#34;11:00 AM IST&#34;, mode: &#34;Video call&#34;},&#10;    {advisor: &#34;Kavita Desai&#34;, date: &#34;2026-10-01&#34;, time: &#34;04:00 PM IST&#34;, mode: &#34;In branch - Surat Ring Road&#34;},&#10;    {advisor: &#34;Arvind Rao&#34;, date: &#34;2026-09-30&#34;, time: &#34;12:30 PM IST&#34;, mode: &#34;Video call&#34;},&#10;    {advisor: &#34;Neha Kapoor&#34;, date: &#34;2026-09-29&#34;, time: &#34;05:00 PM IST&#34;, mode: &#34;In branch - New Delhi Connaught Place&#34;},&#10;    {advisor: &#34;Rohan Kulkarni&#34;, date: &#34;2026-10-02&#34;, time: &#34;11:30 AM IST&#34;, mode: &#34;In branch - Bengaluru Indiranagar&#34;},&#10;    {advisor: &#34;Rohan Kulkarni&#34;, date: &#34;2026-10-03&#34;, time: &#34;06:00 PM IST&#34;, mode: &#34;Video call&#34;},&#10;    {advisor: &#34;Lakshmi Reddy&#34;, date: &#34;2026-10-01&#34;, time: &#34;10:30 AM IST&#34;, mode: &#34;In branch - Hyderabad Banjara Hills&#34;},&#10;    {advisor: &#34;Lakshmi Reddy&#34;, date: &#34;2026-10-02&#34;, time: &#34;04:30 PM IST&#34;, mode: &#34;Video call&#34;},&#10;    {advisor: &#34;Joseph Mathew&#34;, date: &#34;2026-10-01&#34;, time: &#34;02:00 PM IST&#34;, mode: &#34;Video call&#34;},&#10;    {advisor: &#34;Home loan desk (new customers)&#34;, date: &#34;2026-09-30&#34;, time: &#34;11:00 AM IST&#34;, mode: &#34;Video call&#34;},&#10;    {advisor: &#34;Home loan desk (new customers)&#34;, date: &#34;2026-10-01&#34;, time: &#34;05:30 PM IST&#34;, mode: &#34;Video call&#34;}&#10;  ],&#10;  mine: slots[item.advisor = rmName],&#10;  result: {relationshipManager: rmName, availableSlots: if count(mine) &#62; 0 then mine else slots}&#10;}.result" resultVariable="toolCallResult" />
+          <zeebe:ioMapping>
+            <zeebe:input source="=fromAi(toolCall.customerId, &#34;Customer ID such as CUST-10042&#34;, &#34;string&#34;)" target="lookupId" />
+            <zeebe:output source="=toolCallResult" target="toolCallResult" />
+          </zeebe:ioMapping>
+        </bpmn:extensionElements>
+      </bpmn:scriptTask>
+      <bpmn:scriptTask id="adjust_loan_schedule_sap" name="Adjust loan schedule in SAP CML">
+        <bpmn:documentation>Books an EMI / schedule change for a retail loan in SAP CML. Only use when the customer explicitly asked to proceed and policy allows it.</bpmn:documentation>
+        <bpmn:extensionElements>
+          <zeebe:script expression="={&#10;  wanted: upper case(loanId),&#10;  book: [&#10;    {loanId: &#34;HL-2024-0042&#34;, owner: &#34;CUST-10042&#34;, segment: &#34;RETAIL&#34;, status: &#34;ACTIVE&#34;},&#10;    {loanId: &#34;PL-2023-0188&#34;, owner: &#34;CUST-10042&#34;, segment: &#34;RETAIL&#34;, status: &#34;ACTIVE&#34;},&#10;    {loanId: &#34;AL-2023-0571&#34;, owner: &#34;CUST-10057&#34;, segment: &#34;RETAIL&#34;, status: &#34;SMA-1&#34;},&#10;    {loanId: &#34;BL-2022-0733&#34;, owner: &#34;CUST-10073&#34;, segment: &#34;SME&#34;, status: &#34;ACTIVE&#34;},&#10;    {loanId: &#34;LAP-2021-0310&#34;, owner: &#34;CUST-10073&#34;, segment: &#34;SME&#34;, status: &#34;ACTIVE&#34;},&#10;    {loanId: &#34;EL-2022-0888&#34;, owner: &#34;CUST-10088&#34;, segment: &#34;RETAIL&#34;, status: &#34;MORATORIUM&#34;},&#10;    {loanId: &#34;HL-2020-0655&#34;, owner: &#34;CUST-10091&#34;, segment: &#34;RETAIL&#34;, status: &#34;FORECLOSURE REQUESTED&#34;},&#10;    {loanId: &#34;GL-2025-0091&#34;, owner: &#34;CUST-10091&#34;, segment: &#34;RETAIL&#34;, status: &#34;ACTIVE&#34;},&#10;    {loanId: &#34;HL-2023-0134&#34;, owner: &#34;CUST-10134&#34;, segment: &#34;RETAIL&#34;, status: &#34;ACTIVE&#34;},&#10;    {loanId: &#34;PL-2025-0277&#34;, owner: &#34;CUST-10134&#34;, segment: &#34;RETAIL&#34;, status: &#34;ACTIVE&#34;}&#10;  ],&#10;  owned: book[item.loanId = wanted],&#10;  result: if count(owned) = 0 then {success: false, error: &#34;LOAN_NOT_FOUND&#34;, message: &#34;Loan not found in SAP CML.&#34;}&#10;    else if owned[1].owner != customerId then {success: false, error: &#34;LOAN_CUSTOMER_MISMATCH&#34;, message: &#34;This loan does not belong to the current customer.&#34;}&#10;    else if owned[1].segment = &#34;SME&#34; then {success: false, error: &#34;CREDIT_COMMITTEE_APPROVAL_REQUIRED&#34;, message: &#34;SME loan changes cannot be booked by the agent. Hand over to a loan specialist.&#34;}&#10;    else if owned[1].status != &#34;ACTIVE&#34; then {success: false, error: &#34;LOAN_NOT_ELIGIBLE&#34;, message: &#34;Loan status is &#34; + owned[1].status + &#34;. Schedule changes need human approval.&#34;}&#10;    else {success: true, loanId: wanted, action: restructureType, extensionMonths: extensionMonths, newEmiAmount: newEmiAmount, effectiveDate: &#34;2026-11-01&#34;, sapDocNumber: &#34;SAP-CML-&#34; + wanted + &#34;-0928&#34;, status: &#34;PENDING_CHECKER_APPROVAL&#34;, message: &#34;Schedule change booked in SAP CML (simulated). It becomes effective after maker-checker approval.&#34;}&#10;}.result" resultVariable="toolCallResult" />
+          <zeebe:ioMapping>
+            <zeebe:input source="=fromAi(toolCall.loanId, &#34;Loan ID to change, e.g. HL-2024-0042&#34;, &#34;string&#34;)" target="loanId" />
+            <zeebe:input source="=fromAi(toolCall.restructureType, &#34;One of TENURE_EXTENSION, EMI_REDUCTION, PREPAYMENT&#34;, &#34;string&#34;)" target="restructureType" />
+            <zeebe:input source="=fromAi(toolCall.extensionMonths, &#34;Number of months to extend the tenure, 0 if not applicable&#34;, &#34;integer&#34;)" target="extensionMonths" />
+            <zeebe:input source="=fromAi(toolCall.newEmiAmount, &#34;New EMI amount in INR&#34;, &#34;number&#34;)" target="newEmiAmount" />
+            <zeebe:output source="=toolCallResult" target="toolCallResult" />
+          </zeebe:ioMapping>
+        </bpmn:extensionElements>
+      </bpmn:scriptTask>
+      <bpmn:scriptTask id="calculate_loan" name="Calculate EMI / eligibility / prepayment">
+        <bpmn:documentation>Deterministic loan calculator. ALWAYS use it for any EMI, total interest, maximum eligible loan (FOIR and LTV), tenure cap by age, or prepayment savings figure - never calculate these yourself. Call it once per variant (e.g. once each for 20, 25 and 30 years). Pass 0 for inputs that do not apply.</bpmn:documentation>
+        <bpmn:extensionElements>
+          <zeebe:script expression="={&#10;  typ: if loanType = null then &#34;OTHER&#34; else upper case(loanType),&#10;  P: if principal = null then 0 else principal,&#10;  rate: if annualRatePercent = null then 0 else annualRatePercent,&#10;  r: rate / 1200,&#10;  age: if borrowerAgeYears = null then 0 else borrowerAgeYears,&#10;  reqN: if tenureMonths = null or tenureMonths &#60;= 0 then 240 else tenureMonths,&#10;  policyMaxN: if typ = &#34;CAR&#34; then 84 else 360,&#10;  ageCapN: if typ = &#34;HOME&#34; and age &#62; 0 then (60 - age) * 12 else 360,&#10;  n: max([min([reqN, policyMaxN, ageCapN]), 12]),&#10;  g: (1 + r) ** n,&#10;  emi: if P &#60;= 0 then null else if r = 0 then P / n else P * r * g / (g - 1),&#10;  income: if monthlyNetIncome = null then 0 else monthlyNetIncome,&#10;  existing: if existingMonthlyEmis = null then 0 else existingMonthlyEmis,&#10;  maxEmi: if income &#62; 0 then income * 0.55 - existing else null,&#10;  byIncome: if maxEmi = null or maxEmi &#60;= 0 then null else if r = 0 then maxEmi * n else maxEmi * (g - 1) / (r * g),&#10;  V: if propertyOrAssetValue = null then 0 else propertyOrAssetValue,&#10;  byLtv: if V &#60;= 0 then null else if typ = &#34;HOME&#34; then max([min([0.9 * V, 3000000]), min([0.8 * V, 7500000]), if 0.75 * V &#62; 7500000 then 0.75 * V else 0]) else if typ = &#34;CAR&#34; then 0.9 * V else null,&#10;  caps: [byIncome, byLtv][item != null],&#10;  maxEligible: if count(caps) = 0 then null else min(caps),&#10;  pre: if prepaymentAmount = null then 0 else prepaymentAmount,&#10;  P2: P - pre,&#10;  doPre: pre &#62; 0 and P2 &#62; 0 and r &#62; 0 and emi != null,&#10;  newEmi: if doPre then P2 * r * g / (g - 1) else null,&#10;  newN: if doPre then ceiling(-log(1 - r * P2 / emi) / log(1 + r)) else null,&#10;  result: {&#10;    inputs: {loanType: typ, amount: P, annualRatePercent: rate, requestedTenureMonths: reqN, borrowerAgeYears: age, monthlyNetIncome: income, existingMonthlyEmis: existing, propertyOrAssetValue: V, prepaymentAmount: pre},&#10;    tenureUsedMonths: n,&#10;    tenureUsedYears: decimal(n / 12, 1),&#10;    tenureCapped: n &#60; reqN,&#10;    tenureCapReason: if n &#62;= reqN then null else if typ = &#34;HOME&#34; and ageCapN &#60; reqN then &#34;Home loan must end by age 60&#34; else &#34;Policy maximum tenure&#34;,&#10;    emi: if emi = null then null else decimal(emi, 0),&#10;    totalInterest: if emi = null then null else decimal(emi * n - P, 0),&#10;    maxAffordableEmi: if maxEmi = null then null else decimal(maxEmi, 0),&#10;    maxLoanByIncome: if byIncome = null then null else decimal(byIncome, 0),&#10;    maxLoanByLtv: if byLtv = null then null else decimal(byLtv, 0),&#10;    maxEligibleLoan: if maxEligible = null then null else decimal(maxEligible, 0),&#10;    limitingFactor: if maxEligible = null then null else if byLtv != null and maxEligible = byLtv then &#34;LTV (property value)&#34; else &#34;INCOME (FOIR 55%)&#34;,&#10;    requestedAmountEligible: if maxEligible = null or P &#60;= 0 then null else P &#60;= maxEligible,&#10;    prepayment: if not(doPre) then null else {&#10;      newEmiIfTenureKept: decimal(newEmi, 0),&#10;      emiReduction: decimal(emi - newEmi, 0),&#10;      interestSavedIfEmiReduced: decimal((emi - newEmi) * n - pre, 0),&#10;      newTenureMonthsIfEmiKept: newN,&#10;      tenureReductionMonths: n - newN,&#10;      interestSavedIfTenureReduced: decimal(emi * (n - newN) - pre, 0)&#10;    },&#10;    note: &#34;Deterministic calculation: reducing balance, monthly rest, FOIR 55%, home loan LTV slabs (up to 30L 90%, above 30L up to 75L 80%, above 75L 75%), car LTV 90%. Prepayment charges are NOT included - check the knowledge base.&#34;&#10;  }&#10;}.result" resultVariable="toolCallResult" />
+          <zeebe:ioMapping>
+            <zeebe:input source="=fromAi(toolCall.loanType, &#34;HOME, CAR or OTHER&#34;, &#34;string&#34;)" target="loanType" />
+            <zeebe:input source="=fromAi(toolCall.principal, &#34;Loan amount (new loan) or current outstanding balance (existing loan) in INR; 0 if only checking maximum eligibility&#34;, &#34;number&#34;)" target="principal" />
+            <zeebe:input source="=fromAi(toolCall.annualRatePercent, &#34;Annual interest rate in percent, e.g. 8.4&#34;, &#34;number&#34;)" target="annualRatePercent" />
+            <zeebe:input source="=fromAi(toolCall.tenureMonths, &#34;Requested tenure (new loan) or remaining EMIs (existing loan) in months&#34;, &#34;integer&#34;)" target="tenureMonths" />
+            <zeebe:input source="=fromAi(toolCall.borrowerAgeYears, &#34;Borrower age from the customer master, for NEW home loans only; 0 for existing loans or if unknown&#34;, &#34;integer&#34;)" target="borrowerAgeYears" />
+            <zeebe:input source="=fromAi(toolCall.monthlyNetIncome, &#34;Net monthly income in INR for eligibility checks; 0 if not needed&#34;, &#34;number&#34;)" target="monthlyNetIncome" />
+            <zeebe:input source="=fromAi(toolCall.existingMonthlyEmis, &#34;Total of the borrower&#39;s other monthly EMIs in INR, including any planned new EMIs; 0 if none&#34;, &#34;number&#34;)" target="existingMonthlyEmis" />
+            <zeebe:input source="=fromAi(toolCall.propertyOrAssetValue, &#34;Property value (home loan) or on-road price (car loan) in INR for the LTV check; 0 if not applicable&#34;, &#34;number&#34;)" target="propertyOrAssetValue" />
+            <zeebe:input source="=fromAi(toolCall.prepaymentAmount, &#34;Part-prepayment amount in INR; 0 if not a prepayment question&#34;, &#34;number&#34;)" target="prepaymentAmount" />
+            <zeebe:output source="=toolCallResult" target="toolCallResult" />
+          </zeebe:ioMapping>
+        </bpmn:extensionElements>
+      </bpmn:scriptTask>
+      <bpmn:scriptTask id="ask_customer_via_email" name="Reply with email to customer">
+        <bpmn:documentation>Emails the customer a clarifying question and waits for their email reply (up to 15 minutes). The tool result contains the customer's reply text, or a note that no reply arrived. Use only when essential information is missing, e.g. the customer has several loans and did not say which one, or an amount needed for a calculation is missing.</bpmn:documentation>
+        <bpmn:extensionElements>
+          <zeebe:script expression="={&#10;  status: &#34;SENT&#34;,&#10;  to: replyToEmail,&#10;  subject: emailSubject + &#34; (Loan case ref &#34; + caseRef + &#34;)&#34;,&#10;  body: emailBody + &#34;\n\n--\nPlease reply directly to this email and keep the subject line unchanged, so that we can link your answer to your request (reference &#34; + caseRef + &#34;).\nLoan Support Team&#34;,&#10;  sentAt: string(now())&#10;}" resultVariable="toolCallResult" />
+          <zeebe:ioMapping>
+            <zeebe:input source="=fromAi(toolCall.emailSubject, &#34;Subject line of the clarification email&#34;, &#34;string&#34;)" target="emailSubject" />
+            <zeebe:input source="=fromAi(toolCall.emailBody, &#34;Body of the email asking the customer for the missing information&#34;, &#34;string&#34;)" target="emailBody" />
+            <zeebe:output source="=toolCallResult" target="toolCallResult" />
+          </zeebe:ioMapping>
+        </bpmn:extensionElements>
+        <bpmn:outgoing>Flow_Reply_Wait</bpmn:outgoing>
+      </bpmn:scriptTask>
+      <bpmn:serviceTask id="Task_EmailClarification" name="Email clarifying question" zeebe:modelerTemplate="io.camunda.connectors.email.v1" zeebe:modelerTemplateVersion="8" zeebe:modelerTemplateIcon="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgY2xpcC1wYXRoPSJ1cmwoI2NsaXAwXzkwXzI0MjApIj4KPHBhdGggZD0iTTguMzM4MzUgOS45NTM2NUwxMC4zODk0IDEyLjAxMDRMOC4zMzI2MiAxNC4wNjcyTDkuMTQ2MTYgMTQuODc1TDEyLjAxMDcgMTIuMDEwNEw5LjE0NjE2IDkuMTQ1ODNMOC4zMzgzNSA5Ljk1MzY1WiIgZmlsbD0iYmxhY2siLz4KPHBhdGggZD0iTTEyLjM0ODggOS45NTM2NUwxNC4zOTk4IDEyLjAxMDRMMTIuMzQzIDE0LjA2NzJMMTMuMTU2NiAxNC44NzVMMTYuMDIxMiAxMi4wMTA0TDEzLjE1NjYgOS4xNDU4M0wxMi4zNDg4IDkuOTUzNjVaIiBmaWxsPSJibGFjayIvPgo8cGF0aCBkPSJNMy45NzIgMTEuNDM3NUgxLjEyNTMzVjIuNzkyMTlMNy42NzM3NiA3LjMyMzk2QzcuNzY5NjcgNy4zOTA0OSA3Ljg4MzYgNy40MjYxNCA4LjAwMDMyIDcuNDI2MTRDOC4xMTcwNSA3LjQyNjE0IDguMjMwOTggNy4zOTA0OSA4LjMyNjg5IDcuMzIzOTZMMTQuODc1MyAyLjc5MjE5VjhIMTYuMDIxMlYyLjI3MDgzQzE2LjAyMTIgMS45NjY5NCAxNS45MDA0IDEuNjc1NDkgMTUuNjg1NiAxLjQ2MDYxQzE1LjQ3MDcgMS4yNDU3MiAxNS4xNzkyIDEuMTI1IDE0Ljg3NTMgMS4xMjVIMS4xMjUzM0MwLjgyMTQzMiAxLjEyNSAwLjUyOTk4NCAxLjI0NTcyIDAuMzE1MDk5IDEuNDYwNjFDMC4xMDAyMTQgMS42NzU0OSAtMC4wMjA1MDc4IDEuOTY2OTQgLTAuMDIwNTA3OCAyLjI3MDgzVjExLjQzNzVDLTAuMDIwNTA3OCAxMS43NDE0IDAuMTAwMjE0IDEyLjAzMjggMC4zMTUwOTkgMTIuMjQ3N0MwLjUyOTk4NCAxMi40NjI2IDAuODIxNDMyIDEyLjU4MzMgMS4xMjUzMyAxMi41ODMzSDMuOTcyVjExLjQzNzVaTTEzLjYxNDkgMi4yNzA4M0w4LjAwMDMyIDYuMTU1MjFMMi4zODU3NCAyLjI3MDgzSDEzLjYxNDlaIiBmaWxsPSIjRkM1RDBEIi8+CjxwYXRoIGQ9Ik00LjI4MjEgOS45NTM2NUw2LjMzMzE0IDEyLjAxMDRMNC4yNzYzNyAxNC4wNjcyTDUuMDg5OTEgMTQuODc1TDcuOTU0NDkgMTIuMDEwNEw1LjA4OTkxIDkuMTQ1ODNMNC4yODIxIDkuOTUzNjVaIiBmaWxsPSJibGFjayIvPgo8L2c+CjxkZWZzPgo8Y2xpcFBhdGggaWQ9ImNsaXAwXzkwXzI0MjAiPgo8cmVjdCB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIGZpbGw9IndoaXRlIi8+CjwvY2xpcFBhdGg+CjwvZGVmcz4KPC9zdmc+Cg==">
+        <bpmn:documentation>Actually emails the agent's clarifying question. The customer's reply arrives in the main inbox; a support team member pastes it into 'Wait for customer response'.</bpmn:documentation>
+        <bpmn:extensionElements>
+          <zeebe:taskDefinition type="io.camunda:email:1" retries="3" />
+          <zeebe:ioMapping>
+            <zeebe:input source="smtp" target="protocol" />
+            <zeebe:input source="sendEmailSmtp" target="data.smtpActionDiscriminator" />
+            <zeebe:input source="simple" target="authentication.type" />
+            <zeebe:input source="{{secrets.EMAIL_USERNAME}}" target="authentication.username" />
+            <zeebe:input source="{{secrets.EMAIL_PASSWORD}}" target="authentication.password" />
+            <zeebe:input source="{{secrets.EMAIL_USERNAME}}" target="data.smtpAction.from" />
+            <zeebe:input source="=toolCallResult.to" target="data.smtpAction.to" />
+            <zeebe:input source="=toolCallResult.subject" target="data.smtpAction.subject" />
+            <zeebe:input source="PLAIN" target="data.smtpAction.contentType" />
+            <zeebe:input source="=toolCallResult.body" target="data.smtpAction.body" />
+            <zeebe:input source="none" target="data.smtpAction.data_smtpAction_attachments_documentMode" />
+            <zeebe:input source="=if data.smtpAction.data_smtpAction_attachments_documentMode = &#34;multiple&#34; then data.smtpAction.data_smtpAction_attachments_multiple_expression else if data.smtpAction.data_smtpAction_attachments_documentMode = &#34;single&#34; then (if data.smtpAction.data_smtpAction_attachments_single_documentSource = &#34;camunda&#34; then [data.smtpAction.data_smtpAction_attachments_single_camundaReference] else if data.smtpAction.data_smtpAction_attachments_single_documentSource = &#34;inline&#34; then [{ &#34;camunda.document.type&#34;: &#34;inline&#34;, content: data.smtpAction.data_smtpAction_attachments_single_inline_content, name: data.smtpAction.data_smtpAction_attachments_single_inline_fileName, contentType: data.smtpAction.data_smtpAction_attachments_single_inline_contentType }] else if data.smtpAction.data_smtpAction_attachments_single_documentSource = &#34;external&#34; then [{ &#34;camunda.document.type&#34;: &#34;external&#34;, url: data.smtpAction.data_smtpAction_attachments_single_external_url, name: data.smtpAction.data_smtpAction_attachments_single_external_fileName }] else null) else null" target="data.smtpAction.attachments" />
+            <zeebe:input source="smtp.gmail.com" target="data.smtpConfig.smtpHost" />
+            <zeebe:input source="=587" target="data.smtpConfig.smtpPort" />
+            <zeebe:input source="TLS" target="data.smtpConfig.smtpCryptographicProtocol" />
+          </zeebe:ioMapping>
+          <zeebe:taskHeaders>
+            <zeebe:header key="elementTemplateVersion" value="8" />
+            <zeebe:header key="elementTemplateId" value="io.camunda.connectors.email.v1" />
+            <zeebe:header key="retryBackoff" value="PT10S" />
+          </zeebe:taskHeaders>
+        </bpmn:extensionElements>
+        <bpmn:incoming>Flow_Reply_Wait</bpmn:incoming>
+        <bpmn:outgoing>Flow_Clarify_Wait</bpmn:outgoing>
+      </bpmn:serviceTask>
+      <bpmn:eventBasedGateway id="Gateway_WaitForReply" name="Wait for customer reply">
+        <bpmn:incoming>Flow_Clarify_Wait</bpmn:incoming>
+        <bpmn:outgoing>Flow_Wait_Reply</bpmn:outgoing>
+        <bpmn:outgoing>Flow_Wait_Timeout</bpmn:outgoing>
+      </bpmn:eventBasedGateway>
+      <bpmn:intermediateCatchEvent id="Event_CustomerReplyEmail" name="Customer replied by email" zeebe:modelerTemplate="io.camunda.connectors.inbound.EmailIntermediate.v1" zeebe:modelerTemplateVersion="3" zeebe:modelerTemplateIcon="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgY2xpcC1wYXRoPSJ1cmwoI2NsaXAwXzkwXzI0MjApIj4KPHBhdGggZD0iTTguMzM4MzUgOS45NTM2NUwxMC4zODk0IDEyLjAxMDRMOC4zMzI2MiAxNC4wNjcyTDkuMTQ2MTYgMTQuODc1TDEyLjAxMDcgMTIuMDEwNEw5LjE0NjE2IDkuMTQ1ODNMOC4zMzgzNSA5Ljk1MzY1WiIgZmlsbD0iYmxhY2siLz4KPHBhdGggZD0iTTEyLjM0ODggOS45NTM2NUwxNC4zOTk4IDEyLjAxMDRMMTIuMzQzIDE0LjA2NzJMMTMuMTU2NiAxNC44NzVMMTYuMDIxMiAxMi4wMTA0TDEzLjE1NjYgOS4xNDU4M0wxMi4zNDg4IDkuOTUzNjVaIiBmaWxsPSJibGFjayIvPgo8cGF0aCBkPSJNMy45NzIgMTEuNDM3NUgxLjEyNTMzVjIuNzkyMTlMNy42NzM3NiA3LjMyMzk2QzcuNzY5NjcgNy4zOTA0OSA3Ljg4MzYgNy40MjYxNCA4LjAwMDMyIDcuNDI2MTRDOC4xMTcwNSA3LjQyNjE0IDguMjMwOTggNy4zOTA0OSA4LjMyNjg5IDcuMzIzOTZMMTQuODc1MyAyLjc5MjE5VjhIMTYuMDIxMlYyLjI3MDgzQzE2LjAyMTIgMS45NjY5NCAxNS45MDA0IDEuNjc1NDkgMTUuNjg1NiAxLjQ2MDYxQzE1LjQ3MDcgMS4yNDU3MiAxNS4xNzkyIDEuMTI1IDE0Ljg3NTMgMS4xMjVIMS4xMjUzM0MwLjgyMTQzMiAxLjEyNSAwLjUyOTk4NCAxLjI0NTcyIDAuMzE1MDk5IDEuNDYwNjFDMC4xMDAyMTQgMS42NzU0OSAtMC4wMjA1MDc4IDEuOTY2OTQgLTAuMDIwNTA3OCAyLjI3MDgzVjExLjQzNzVDLTAuMDIwNTA3OCAxMS43NDE0IDAuMTAwMjE0IDEyLjAzMjggMC4zMTUwOTkgMTIuMjQ3N0MwLjUyOTk4NCAxMi40NjI2IDAuODIxNDMyIDEyLjU4MzMgMS4xMjUzMyAxMi41ODMzSDMuOTcyVjExLjQzNzVaTTEzLjYxNDkgMi4yNzA4M0w4LjAwMDMyIDYuMTU1MjFMMi4zODU3NCAyLjI3MDgzSDEzLjYxNDlaIiBmaWxsPSIjRkM1RDBEIi8+CjxwYXRoIGQ9Ik00LjI4MjEgOS45NTM2NUw2LjMzMzE0IDEyLjAxMDRMNC4yNzYzNyAxNC4wNjcyTDUuMDg5OTEgMTQuODc1TDcuOTU0NDkgMTIuMDEwNEw1LjA4OTkxIDkuMTQ1ODNMNC4yODIxIDkuOTUzNjVaIiBmaWxsPSJibGFjayIvPgo8L2c+CjxkZWZzPgo8Y2xpcFBhdGggaWQ9ImNsaXAwXzkwXzI0MjAiPgo8cmVjdCB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIGZpbGw9IndoaXRlIi8+CjwvY2xpcFBhdGg+CjwvZGVmcz4KPC9zdmc+Cg==">
+        <bpmn:extensionElements>
+          <zeebe:properties>
+            <zeebe:property name="inbound.type" value="io.camunda:connector-email-inbound:1" />
+            <zeebe:property name="authentication.type" value="simple" />
+            <zeebe:property name="authentication.username" value="{{secrets.EMAIL_USERNAME}}" />
+            <zeebe:property name="authentication.password" value="{{secrets.EMAIL_PASSWORD}}" />
+            <zeebe:property name="data.imapConfig.imapHost" value="imap.gmail.com" />
+            <zeebe:property name="data.imapConfig.imapPort" value="993" />
+            <zeebe:property name="data.imapConfig.imapCryptographicProtocol" value="TLS" />
+            <zeebe:property name="data.folderToListen" value="Camunda-Replies" />
+            <zeebe:property name="data.pollingWaitTime" value="PT20S" />
+            <zeebe:property name="data.pollingConfigDiscriminator" value="unseenPollingConfig" />
+            <zeebe:property name="data.pollingConfig.handlingStrategy" value="READ" />
+            <zeebe:property name="activationCondition" value="=subject != null and matches(subject, &#34;^ *(re|aw|antw|sv) *:.*loan case ref ls[0-9]+.*&#34;, &#34;si&#34;)" />
+            <zeebe:property name="correlationKeyExpression" value="=upper case(replace(subject, &#34;^.*loan case ref (ls[0-9]+).*$&#34;, &#34;$1&#34;, &#34;si&#34;))" />
+            <zeebe:property name="messageIdExpression" value="=messageId" />
+            <zeebe:property name="messageTtl" value="PT10M" />
+            <zeebe:property name="consumeUnmatchedEvents" value="true" />
+            <zeebe:property name="deduplicationModeManualFlag" value="false" />
+            <zeebe:property name="deduplicationMode" value="AUTO" />
+            <zeebe:property name="resultVariable" value="" />
+            <zeebe:property name="resultExpression" value="={&#10;  bodyText: if plainTextBody = null then &#34;&#34; else trim(split(plainTextBody, &#34;(?m)^(On [^\n]*(\n[^\n]*)?wrote:|&#62;|_{5,}|-{2,} ?Original Message|From: )&#34;)[1]),&#10;  result: {&#10;    toolCallResult: {&#10;      customerRepliedByEmail: true,&#10;      replyFrom: fromAddress,&#10;      replySubject: subject,&#10;      customerReply: if bodyText = &#34;&#34; then &#34;(the customer sent an empty reply)&#34; else bodyText&#10;    }&#10;  }&#10;}.result" />
+          </zeebe:properties>
+        </bpmn:extensionElements>
+        <bpmn:incoming>Flow_Wait_Reply</bpmn:incoming>
+        <bpmn:messageEventDefinition id="MessageEventDefinition_CustomerReply" messageRef="Message_CustomerReply" />
+      </bpmn:intermediateCatchEvent>
+      <bpmn:intermediateCatchEvent id="Event_ReplyTimeout" name="No reply within 15 min">
+        <bpmn:incoming>Flow_Wait_Timeout</bpmn:incoming>
+        <bpmn:outgoing>Flow_Timeout_Record</bpmn:outgoing>
+        <bpmn:timerEventDefinition id="TimerEventDefinition_ReplyTimeout">
+          <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT15M</bpmn:timeDuration>
+        </bpmn:timerEventDefinition>
+      </bpmn:intermediateCatchEvent>
+      <bpmn:scriptTask id="Task_NoReply" name="Record: no customer reply">
+        <bpmn:extensionElements>
+          <zeebe:script expression="={customerRepliedByEmail: false, customerReply: &#34;(no reply received within 15 minutes - answer with the information available and explain what is still needed)&#34;}" resultVariable="toolCallResult" />
+          <zeebe:ioMapping>
+            <zeebe:output source="=toolCallResult" target="toolCallResult" />
+          </zeebe:ioMapping>
+        </bpmn:extensionElements>
+        <bpmn:incoming>Flow_Timeout_Record</bpmn:incoming>
+      </bpmn:scriptTask>
+      <bpmn:userTask id="ask_loan_specialist" name="Ask loan specialist">
+        <bpmn:documentation>Asks a human loan specialist for a decision or approval (penalty waivers, SME restructuring, complaints, overdue accounts). The specialist can answer or take over the case completely.</bpmn:documentation>
+        <bpmn:extensionElements>
+          <zeebe:userTask />
+          <zeebe:formDefinition formId="ask-loan-specialist-form" />
+          <zeebe:assignmentDefinition candidateGroups="loan-specialist-team" />
+          <zeebe:ioMapping>
+            <zeebe:input source="=fromAi(toolCall.question, &#34;The exact question or approval request for the human loan specialist&#34;, &#34;string&#34;)" target="specialistQuestion" />
+            <zeebe:input source="=fromAi(toolCall.caseSummary, &#34;Short summary of the case, customer data and what you found so far&#34;, &#34;string&#34;)" target="caseSummary" />
+            <zeebe:input source="=customerId" target="customerId" />
+            <zeebe:input source="=customerName" target="customerName" />
+            <zeebe:input source="=inquiryText" target="inquiryText" />
+            <zeebe:output source="={specialistAnswer: specialistAnswer, specialistTakesOver: takeOver = true}" target="toolCallResult" />
+            <zeebe:output source="=takeOver = true" target="escalateToHuman" />
+            <zeebe:output source="=specialistAnswer" target="specialistHandoverNote" />
+          </zeebe:ioMapping>
+        </bpmn:extensionElements>
+        <bpmn:outgoing>Flow_Specialist_Gateway</bpmn:outgoing>
+      </bpmn:userTask>
+      <bpmn:exclusiveGateway id="Gateway_WhoKeepsControl" name="Who keeps control?" default="Flow_Specialist_AgentKeeps">
+        <bpmn:incoming>Flow_Specialist_Gateway</bpmn:incoming>
+        <bpmn:outgoing>Flow_Specialist_Human</bpmn:outgoing>
+        <bpmn:outgoing>Flow_Specialist_AgentKeeps</bpmn:outgoing>
+      </bpmn:exclusiveGateway>
+      <bpmn:intermediateThrowEvent id="ThrowEvent_AgentKeepsControl" name="Agent keeps control">
+        <bpmn:incoming>Flow_Specialist_AgentKeeps</bpmn:incoming>
+      </bpmn:intermediateThrowEvent>
+      <bpmn:intermediateThrowEvent id="ThrowEvent_HumanControl_Specialist" name="Human takes full control">
+        <bpmn:incoming>Flow_Specialist_Human</bpmn:incoming>
+        <bpmn:escalationEventDefinition id="EscalationEventDefinition_Specialist" escalationRef="Escalation_HumanControl" />
+      </bpmn:intermediateThrowEvent>
+      <bpmn:sequenceFlow id="Flow_Reply_Wait" sourceRef="ask_customer_via_email" targetRef="Task_EmailClarification" />
+      <bpmn:sequenceFlow id="Flow_Clarify_Wait" sourceRef="Task_EmailClarification" targetRef="Gateway_WaitForReply" />
+      <bpmn:sequenceFlow id="Flow_Specialist_Gateway" sourceRef="ask_loan_specialist" targetRef="Gateway_WhoKeepsControl" />
+      <bpmn:sequenceFlow id="Flow_Specialist_Human" name="specialist takes over" sourceRef="Gateway_WhoKeepsControl" targetRef="ThrowEvent_HumanControl_Specialist">
+        <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=escalateToHuman = true</bpmn:conditionExpression>
+      </bpmn:sequenceFlow>
+      <bpmn:sequenceFlow id="Flow_Specialist_AgentKeeps" name="agent continues" sourceRef="Gateway_WhoKeepsControl" targetRef="ThrowEvent_AgentKeepsControl" />
+      <bpmn:sequenceFlow id="Flow_Wait_Reply" sourceRef="Gateway_WaitForReply" targetRef="Event_CustomerReplyEmail" />
+      <bpmn:sequenceFlow id="Flow_Wait_Timeout" sourceRef="Gateway_WaitForReply" targetRef="Event_ReplyTimeout" />
+      <bpmn:sequenceFlow id="Flow_Timeout_Record" sourceRef="Event_ReplyTimeout" targetRef="Task_NoReply" />
+    </bpmn:adHocSubProcess>
+    <bpmn:scriptTask id="Task_RecordToolEvidence" name="Record tool evidence">
+      <bpmn:documentation>Keeps an audit trail of every tool the agent called and what it returned. The judge uses it to verify the final answer; toolsUsed is handy in Operate during the demo.</bpmn:documentation>
+      <bpmn:extensionElements>
+        <zeebe:script expression="=concatenate(if toolEvidence = null then [] else toolEvidence, for r in toolCallResults return {tool: r.name, result: r.content})" resultVariable="newEvidence" />
+        <zeebe:ioMapping>
+          <zeebe:output source="=newEvidence" target="toolEvidence" />
+          <zeebe:output source="=distinct values(for e in newEvidence return e.tool)" target="toolsUsed" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_Tools_Loop</bpmn:incoming>
+      <bpmn:outgoing>Flow_Evidence_Loop</bpmn:outgoing>
+    </bpmn:scriptTask>
+    <bpmn:serviceTask id="Task_AgentAsJudge" name="Agent as a Judge" zeebe:modelerTemplate="io.camunda.connectors.agenticai.aiagent.v1" zeebe:modelerTemplateVersion="7" zeebe:modelerTemplateIcon="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMTYiIGN5PSIxNiIgcj0iMTYiIGZpbGw9IiNBNTZFRkYiLz4KPG1hc2sgaWQ9InBhdGgtMi1vdXRzaWRlLTFfMTg1XzYiIG1hc2tVbml0cz0idXNlclNwYWNlT25Vc2UiIHg9IjQiIHk9IjQiIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iYmxhY2siPgo8cmVjdCBmaWxsPSJ3aGl0ZSIgeD0iNCIgeT0iNCIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0Ii8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMjAuMDEwNSAxMi4wOTg3QzE4LjQ5IDEwLjU4OTQgMTcuMTU5NCA4LjEwODE0IDE2LjE3OTkgNi4wMTEwM0MxNi4xNTIgNi4wMDQ1MSAxNi4xMTc2IDYgMTYuMDc5NCA2QzE2LjA0MTEgNiAxNi4wMDY2IDYuMDA0NTEgMTUuOTc4OCA2LjAxMTA0QzE0Ljk5OTQgOC4xMDgxNCAxMy42Njk3IDEwLjU4ODkgMTIuMTQ4MSAxMi4wOTgxQzEwLjYyNjkgMTMuNjA3MSA4LjEyNTY4IDE0LjkyNjQgNi4wMTE1NyAxNS44OTgxQzYuMDA0NzQgMTUuOTI2MSA2IDE1Ljk2MTEgNiAxNkM2IDE2LjAzODcgNi4wMDQ2OCAxNi4wNzM2IDYuMDExNDQgMTYuMTAxNEM4LjEyNTE5IDE3LjA3MjkgMTAuNjI2MiAxOC4zOTE5IDEyLjE0NzcgMTkuOTAxNkMxMy42Njk3IDIxLjQxMDcgMTQuOTk5NiAyMy44OTIgMTUuOTc5MSAyNS45ODlDMTYuMDA2OCAyNS45OTU2IDE2LjA0MTEgMjYgMTYuMDc5MyAyNkMxNi4xMTc1IDI2IDE2LjE1MTkgMjUuOTk1NCAxNi4xNzk2IDI1Ljk4OUMxNy4xNTkxIDIzLjg5MiAxOC40ODg4IDIxLjQxMSAyMC4wMDk5IDE5LjkwMjFNMjAuMDA5OSAxOS45MDIxQzIxLjUyNTMgMTguMzk4NyAyMy45NDY1IDE3LjA2NjkgMjUuOTkxNSAxNi4wODI0QzI1Ljk5NjUgMTYuMDU5MyAyNiAxNi4wMzEgMjYgMTUuOTk5N0MyNiAxNS45Njg0IDI1Ljk5NjUgMTUuOTQwMyAyNS45OTE1IDE1LjkxNzFDMjMuOTQ3NCAxNC45MzI3IDIxLjUyNTkgMTMuNjAxIDIwLjAxMDUgMTIuMDk4NyIvPgo8L21hc2s+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMjAuMDEwNSAxMi4wOTg3QzE4LjQ5IDEwLjU4OTQgMTcuMTU5NCA4LjEwODE0IDE2LjE3OTkgNi4wMTEwM0MxNi4xNTIgNi4wMDQ1MSAxNi4xMTc2IDYgMTYuMDc5NCA2QzE2LjA0MTEgNiAxNi4wMDY2IDYuMDA0NTEgMTUuOTc4OCA2LjAxMTA0QzE0Ljk5OTQgOC4xMDgxNCAxMy42Njk3IDEwLjU4ODkgMTIuMTQ4MSAxMi4wOTgxQzEwLjYyNjkgMTMuNjA3MSA4LjEyNTY4IDE0LjkyNjQgNi4wMTE1NyAxNS44OTgxQzYuMDA0NzQgMTUuOTI2MSA2IDE1Ljk2MTEgNiAxNkM2IDE2LjAzODcgNi4wMDQ2OCAxNi4wNzM2IDYuMDExNDQgMTYuMTAxNEM4LjEyNTE5IDE3LjA3MjkgMTAuNjI2MiAxOC4zOTE5IDEyLjE0NzcgMTkuOTAxNkMxMy42Njk3IDIxLjQxMDcgMTQuOTk5NiAyMy44OTIgMTUuOTc5MSAyNS45ODlDMTYuMDA2OCAyNS45OTU2IDE2LjA0MTEgMjYgMTYuMDc5MyAyNkMxNi4xMTc1IDI2IDE2LjE1MTkgMjUuOTk1NCAxNi4xNzk2IDI1Ljk4OUMxNy4xNTkxIDIzLjg5MiAxOC40ODg4IDIxLjQxMSAyMC4wMDk5IDE5LjkwMjFNMjAuMDA5OSAxOS45MDIxQzIxLjUyNTMgMTguMzk4NyAyMy45NDY1IDE3LjA2NjkgMjUuOTkxNSAxNi4wODI0QzI1Ljk5NjUgMTYuMDU5MyAyNiAxNi4wMzEgMjYgMTUuOTk5N0MyNiAxNS45Njg0IDI1Ljk5NjUgMTUuOTQwMyAyNS45OTE1IDE1LjkxNzFDMjMuOTQ3NCAxNC45MzI3IDIxLjUyNTkgMTMuNjAxIDIwLjAxMDUgMTIuMDk4NyIgZmlsbD0id2hpdGUiLz4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0yMC4wMTA1IDEyLjA5ODdDMTguNDkgMTAuNTg5NCAxNy4xNTk0IDguMTA4MTQgMTYuMTc5OSA2LjAxMTAzQzE2LjE1MiA2LjAwNDUxIDE2LjExNzYgNiAxNi4wNzk0IDZDMTYuMDQxMSA2IDE2LjAwNjYgNi4wMDQ1MSAxNS45Nzg4IDYuMDExMDRDMTQuOTk5NCA4LjEwODE0IDEzLjY2OTcgMTAuNTg4OSAxMi4xNDgxIDEyLjA5ODFDMTAuNjI2OSAxMy42MDcxIDguMTI1NjggMTQuOTI2NCA2LjAxMTU3IDE1Ljg5ODFDNi4wMDQ3NCAxNS45MjYxIDYgMTUuOTYxMSA2IDE2QzYgMTYuMDM4NyA2LjAwNDY4IDE2LjA3MzYgNi4wMTE0NCAxNi4xMDE0QzguMTI1MTkgMTcuMDcyOSAxMC42MjYyIDE4LjM5MTkgMTIuMTQ3NyAxOS45MDE2QzEzLjY2OTcgMjEuNDEwNyAxNC45OTk2IDIzLjg5MiAxNS45NzkxIDI1Ljk4OUMxNi4wMDY4IDI1Ljk5NTYgMTYuMDQxMSAyNiAxNi4wNzkzIDI2QzE2LjExNzUgMjYgMTYuMTUxOSAyNS45OTU0IDE2LjE3OTYgMjUuOTg5QzE3LjE1OTEgMjMuODkyIDE4LjQ4ODggMjEuNDExIDIwLjAwOTkgMTkuOTAyMU0yMC4wMDk5IDE5LjkwMjFDMjEuNTI1MyAxOC4zOTg3IDIzLjk0NjUgMTcuMDY2OSAyNS45OTE1IDE2LjA4MjRDMjUuOTk2NSAxNi4wNTkzIDI2IDE2LjAzMSAyNiAxNS45OTk3QzI2IDE1Ljk2ODQgMjUuOTk2NSAxNS45NDAzIDI1Ljk5MTUgMTUuOTE3MUMyMy45NDc0IDE0LjkzMjcgMjEuNTI1OSAxMy42MDEgMjAuMDEwNSAxMi4wOTg3IiBzdHJva2U9IiM0OTFEOEIiIHN0cm9rZS13aWR0aD0iNCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgbWFzaz0idXJsKCNwYXRoLTItb3V0c2lkZS0xXzE4NV82KSIvPgo8L3N2Zz4K">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="io.camunda.agenticai:aiagent:1" retries="3" />
+        <zeebe:ioMapping>
+          <zeebe:input source="openai" target="provider.type" />
+          <zeebe:input source="=&#34;{{secrets.OPENAI_API_KEY}}&#34;" target="provider.openai.authentication.apiKey" />
+          <zeebe:input source="gpt-4o" target="provider.openai.model.model" />
+          <zeebe:input source="=&#34;You are LoanJudgeAgent, an objective quality evaluator for a banking loan-support AI agent.\n\nYou receive the customer inquiry, the agent&#39;s final response, and the TOOL EVIDENCE: every tool the agent called and what the bank&#39;s systems returned (customer master, loans, closed loans, policy knowledge base, meeting slots, SAP booking results, the customer&#39;s email replies, and any loan specialist answers). Tool evidence is the bank&#39;s system of record and is verified.\n\nEvaluate the response for: accuracy against the tool evidence, completeness (every question answered), helpfulness, customer sentiment, and banking / legal / compliance risk.\n\nChoose exactly ONE outcome:\n\nCASE_SOLVED - the response answers every question, its facts and figures are consistent with the tool evidence, and no policy requires a human. This explicitly includes:\n- loan status, balances, EMIs and dates taken from the tool evidence;\n- EMI, eligibility, LTV and prepayment figures produced by the calculate_loan tool (these are verified deterministic calculations - check the response quotes them correctly);\n- restructuring or prepayment OPTIONS with approximate EMI / savings estimates based on the knowledge base, where the customer only asked about options;\n- a schedule change booked in SAP (status PENDING_CHECKER_APPROVAL) that the customer explicitly requested;\n- policy, rates, documents, eligibility and meeting slots for any customer, including unverified prospects;\n- an unverified sender being politely asked for a valid Customer ID without any account details revealed;\n- redirecting out-of-scope requests (cards, savings) while answering the loan part;\n- an answer that uses information the customer supplied in an email reply.\nDo NOT choose REVIEW_NEEDED just because the response contains amounts, dates or estimates - check them against the evidence instead.\n\nCOMPLETENESS CHECK (do this first): list the questions in the inquiry and check each one is actually answered. If the response does not deliver what was asked (e.g. the customer asked how much they will save and no figure is given), or the response asks the customer to provide more information instead of answering (other than an unverified sender being asked for a Customer ID), or the agent picked one of several loans when the customer did not specify which, the outcome can NOT be CASE_SOLVED - choose REVIEW_NEEDED.\n\nREVIEW_NEEDED - a human should check before sending: the completeness check failed; the account is overdue (SMA) and the customer asks for relief; a penalty or charge waiver was requested or granted; figures in the response contradict or are missing from the tool evidence; the customer did not reply to a clarification email; or the response promises something no tool or policy supports.\n\nHUMAN_INTERVENTION - escalate immediately: legal threat or Banking Ombudsman complaint; the customer explicitly demands a manager or human; restructuring or moratorium on a business / SME loan above INR 10,00,000; a charge was wrongly applied and must be reversed; account details revealed or invented for an unverified sender; or no response was generated.\n\nIdentity: in this demo a valid Customer ID in the message makes the customer verified. The greeting must use the customer record&#39;s name; a different name in an email signature is NOT an identity problem on its own. Flag identity only if account details of a DIFFERENT customer are revealed, or an unverified sender receives account details.\n\nBase your decision only on the input. Do not invent facts.\n\nOutput format: respond ONLY with one valid JSON object. No markdown code fences, no text before or after it.\nThe JSON object must have exactly these five keys:\n- outcome: string, one of CASE_SOLVED, REVIEW_NEEDED, HUMAN_INTERVENTION\n- confidence: number between 0 and 1\n- reason: string, one or two sentences explaining the decision\n- customerSentiment: string, one of POSITIVE, NEUTRAL, NEGATIVE\n- qualityScore: integer from 1 to 10&#34;" target="data.systemPrompt.prompt" />
+          <zeebe:input source="=&#34;## Original Customer Inquiry\n&#34; + inquiryText&#10;  + &#34;\n\n## Agent Final Response\n&#34; + (if agent.responseText != null then agent.responseText else &#34;(no response generated)&#34;)&#10;  + &#34;\n\n## Customer\nVerified customer: &#34; + (if customerVerified = true then &#34;YES&#34; else &#34;NO&#34;) + &#34; | ID: &#34; + customerId + &#34; | Name: &#34; + customerName + &#34; | Email: &#34; + customerEmail&#10;  + &#34;\n\n## Tools used\n&#34; + (if toolsUsed = null then &#34;(none)&#34; else string join(toolsUsed, &#34;, &#34;))&#10;  + &#34;\n\n## Tool evidence (bank system of record)\n&#34; + (if toolEvidence = null then &#34;(the agent did not call any tools)&#34; else string(toolEvidence))&#10;  + &#34;\n\n## Past Conversation History\n&#34; + pastConversationSummary" target="data.userPrompt.prompt" />
+          <zeebe:input source="=judgeResult.context" target="data.context" />
+          <zeebe:input source="in-process" target="data.memory.storage.type" />
+          <zeebe:input source="=5" target="data.memory.contextWindowSize" />
+          <zeebe:input source="=3" target="data.limits.maxModelCalls" />
+          <zeebe:input source="text" target="data.response.format.type" />
+          <zeebe:input source="=true" target="data.response.format.parseJson" />
+          <zeebe:input source="=false" target="data.response.includeAssistantMessage" />
+        </zeebe:ioMapping>
+        <zeebe:taskHeaders>
+          <zeebe:header key="elementTemplateVersion" value="7" />
+          <zeebe:header key="elementTemplateId" value="io.camunda.connectors.agenticai.aiagent.v1" />
+          <zeebe:header key="resultVariable" value="judgeResult" />
+          <zeebe:header key="retryBackoff" value="PT5S" />
+        </zeebe:taskHeaders>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_NoToolCalls_Judge</bpmn:incoming>
+      <bpmn:outgoing>Flow_Judge_Gateway</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_JudgeOutcome" name="Judge outcome" default="Flow_Review">
+      <bpmn:incoming>Flow_Judge_Gateway</bpmn:incoming>
+      <bpmn:outgoing>Flow_Solved_Send</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Review</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Human_Judge</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:scriptTask id="Task_SendFinalAnswer" name="Prepare final answer to customer">
+      <bpmn:extensionElements>
+        <zeebe:script expression="={&#10;  status: &#34;PREPARED&#34;,&#10;  to: replyToEmail,&#10;  customerEmail: customerEmail,&#10;  subject: if requestSubject != null then &#34;Re: &#34; + requestSubject else &#34;RE: Your loan inquiry&#34;,&#10;  body: if agent.responseText != null then agent.responseText else &#34;Thank you for contacting us. Our loan support team will get back to you shortly.&#34;,&#10;  judgeOutcome: judgeResult.responseJson.outcome,&#10;  qualityScore: judgeResult.responseJson.qualityScore,&#10;  sentAt: string(now())&#10;}" resultVariable="finalEmail" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_Solved_Send</bpmn:incoming>
+      <bpmn:outgoing>Flow_Send_End</bpmn:outgoing>
+    </bpmn:scriptTask>
+    <bpmn:serviceTask id="Task_EmailFinalAnswer" name="Email answer to customer" zeebe:modelerTemplate="io.camunda.connectors.email.v1" zeebe:modelerTemplateVersion="8" zeebe:modelerTemplateIcon="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgY2xpcC1wYXRoPSJ1cmwoI2NsaXAwXzkwXzI0MjApIj4KPHBhdGggZD0iTTguMzM4MzUgOS45NTM2NUwxMC4zODk0IDEyLjAxMDRMOC4zMzI2MiAxNC4wNjcyTDkuMTQ2MTYgMTQuODc1TDEyLjAxMDcgMTIuMDEwNEw5LjE0NjE2IDkuMTQ1ODNMOC4zMzgzNSA5Ljk1MzY1WiIgZmlsbD0iYmxhY2siLz4KPHBhdGggZD0iTTEyLjM0ODggOS45NTM2NUwxNC4zOTk4IDEyLjAxMDRMMTIuMzQzIDE0LjA2NzJMMTMuMTU2NiAxNC44NzVMMTYuMDIxMiAxMi4wMTA0TDEzLjE1NjYgOS4xNDU4M0wxMi4zNDg4IDkuOTUzNjVaIiBmaWxsPSJibGFjayIvPgo8cGF0aCBkPSJNMy45NzIgMTEuNDM3NUgxLjEyNTMzVjIuNzkyMTlMNy42NzM3NiA3LjMyMzk2QzcuNzY5NjcgNy4zOTA0OSA3Ljg4MzYgNy40MjYxNCA4LjAwMDMyIDcuNDI2MTRDOC4xMTcwNSA3LjQyNjE0IDguMjMwOTggNy4zOTA0OSA4LjMyNjg5IDcuMzIzOTZMMTQuODc1MyAyLjc5MjE5VjhIMTYuMDIxMlYyLjI3MDgzQzE2LjAyMTIgMS45NjY5NCAxNS45MDA0IDEuNjc1NDkgMTUuNjg1NiAxLjQ2MDYxQzE1LjQ3MDcgMS4yNDU3MiAxNS4xNzkyIDEuMTI1IDE0Ljg3NTMgMS4xMjVIMS4xMjUzM0MwLjgyMTQzMiAxLjEyNSAwLjUyOTk4NCAxLjI0NTcyIDAuMzE1MDk5IDEuNDYwNjFDMC4xMDAyMTQgMS42NzU0OSAtMC4wMjA1MDc4IDEuOTY2OTQgLTAuMDIwNTA3OCAyLjI3MDgzVjExLjQzNzVDLTAuMDIwNTA3OCAxMS43NDE0IDAuMTAwMjE0IDEyLjAzMjggMC4zMTUwOTkgMTIuMjQ3N0MwLjUyOTk4NCAxMi40NjI2IDAuODIxNDMyIDEyLjU4MzMgMS4xMjUzMyAxMi41ODMzSDMuOTcyVjExLjQzNzVaTTEzLjYxNDkgMi4yNzA4M0w4LjAwMDMyIDYuMTU1MjFMMi4zODU3NCAyLjI3MDgzSDEzLjYxNDlaIiBmaWxsPSIjRkM1RDBEIi8+CjxwYXRoIGQ9Ik00LjI4MjEgOS45NTM2NUw2LjMzMzE0IDEyLjAxMDRMNC4yNzYzNyAxNC4wNjcyTDUuMDg5OTEgMTQuODc1TDcuOTU0NDkgMTIuMDEwNEw1LjA4OTkxIDkuMTQ1ODNMNC4yODIxIDkuOTUzNjVaIiBmaWxsPSJibGFjayIvPgo8L2c+CjxkZWZzPgo8Y2xpcFBhdGggaWQ9ImNsaXAwXzkwXzI0MjAiPgo8cmVjdCB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIGZpbGw9IndoaXRlIi8+CjwvY2xpcFBhdGg+CjwvZGVmcz4KPC9zdmc+Cg==">
+      <bpmn:documentation>Sends the AI agent's final answer (judge: CASE_SOLVED) via Gmail SMTP.</bpmn:documentation>
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="io.camunda:email:1" retries="3" />
+        <zeebe:ioMapping>
+          <zeebe:input source="smtp" target="protocol" />
+          <zeebe:input source="sendEmailSmtp" target="data.smtpActionDiscriminator" />
+          <zeebe:input source="simple" target="authentication.type" />
+          <zeebe:input source="{{secrets.EMAIL_USERNAME}}" target="authentication.username" />
+          <zeebe:input source="{{secrets.EMAIL_PASSWORD}}" target="authentication.password" />
+          <zeebe:input source="{{secrets.EMAIL_USERNAME}}" target="data.smtpAction.from" />
+          <zeebe:input source="=finalEmail.to" target="data.smtpAction.to" />
+          <zeebe:input source="=finalEmail.subject" target="data.smtpAction.subject" />
+          <zeebe:input source="PLAIN" target="data.smtpAction.contentType" />
+          <zeebe:input source="=finalEmail.body" target="data.smtpAction.body" />
+          <zeebe:input source="none" target="data.smtpAction.data_smtpAction_attachments_documentMode" />
+          <zeebe:input source="=if data.smtpAction.data_smtpAction_attachments_documentMode = &#34;multiple&#34; then data.smtpAction.data_smtpAction_attachments_multiple_expression else if data.smtpAction.data_smtpAction_attachments_documentMode = &#34;single&#34; then (if data.smtpAction.data_smtpAction_attachments_single_documentSource = &#34;camunda&#34; then [data.smtpAction.data_smtpAction_attachments_single_camundaReference] else if data.smtpAction.data_smtpAction_attachments_single_documentSource = &#34;inline&#34; then [{ &#34;camunda.document.type&#34;: &#34;inline&#34;, content: data.smtpAction.data_smtpAction_attachments_single_inline_content, name: data.smtpAction.data_smtpAction_attachments_single_inline_fileName, contentType: data.smtpAction.data_smtpAction_attachments_single_inline_contentType }] else if data.smtpAction.data_smtpAction_attachments_single_documentSource = &#34;external&#34; then [{ &#34;camunda.document.type&#34;: &#34;external&#34;, url: data.smtpAction.data_smtpAction_attachments_single_external_url, name: data.smtpAction.data_smtpAction_attachments_single_external_fileName }] else null) else null" target="data.smtpAction.attachments" />
+          <zeebe:input source="smtp.gmail.com" target="data.smtpConfig.smtpHost" />
+          <zeebe:input source="=587" target="data.smtpConfig.smtpPort" />
+          <zeebe:input source="TLS" target="data.smtpConfig.smtpCryptographicProtocol" />
+        </zeebe:ioMapping>
+        <zeebe:taskHeaders>
+          <zeebe:header key="elementTemplateVersion" value="8" />
+          <zeebe:header key="elementTemplateId" value="io.camunda.connectors.email.v1" />
+          <zeebe:header key="retryBackoff" value="PT10S" />
+        </zeebe:taskHeaders>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_Send_End</bpmn:incoming>
+      <bpmn:outgoing>Flow_EmailFinal_End</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="EndEvent_CaseSolved" name="Case solved">
+      <bpmn:incoming>Flow_EmailFinal_End</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="Task_ReviewResolution" name="Review case resolution">
+      <bpmn:extensionElements>
+        <zeebe:userTask />
+        <zeebe:formDefinition formId="review-case-resolution-form" />
+        <zeebe:assignmentDefinition candidateGroups="loan-review-team" />
+        <zeebe:ioMapping>
+          <zeebe:input source="=customerId" target="customerId" />
+          <zeebe:input source="=customerName" target="customerName" />
+          <zeebe:input source="=customerEmail" target="customerEmail" />
+          <zeebe:input source="=inquiryText" target="inquiryText" />
+          <zeebe:input source="=if judgeResult.responseJson.outcome = null then &#34;UNPARSEABLE - please review&#34; else judgeResult.responseJson.outcome" target="judgeOutcome" />
+          <zeebe:input source="=if judgeResult.responseJson.reason = null then &#34;n/a&#34; else judgeResult.responseJson.reason" target="judgeReason" />
+          <zeebe:input source="=if judgeResult.responseJson.qualityScore = null then &#34;n/a&#34; else string(judgeResult.responseJson.qualityScore) + &#34; / 10&#34;" target="judgeScore" />
+          <zeebe:input source="=if judgeResult.responseJson.customerSentiment = null then &#34;n/a&#34; else judgeResult.responseJson.customerSentiment" target="judgeSentiment" />
+          <zeebe:input source="=if agent.responseText = null then &#34;&#34; else agent.responseText" target="editedResponse" />
+          <zeebe:output source="=reviewDecision" target="reviewDecision" />
+          <zeebe:output source="=editedResponse" target="reviewedResponse" />
+          <zeebe:output source="=reviewerNotes" target="reviewerNotes" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_Review</bpmn:incoming>
+      <bpmn:outgoing>Flow_Review_Decision</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_ReviewDecision" name="Reviewer decision?" default="Flow_Reviewed_Send">
+      <bpmn:incoming>Flow_Review_Decision</bpmn:incoming>
+      <bpmn:outgoing>Flow_Reviewed_Send</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Reviewer_Escalate</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:scriptTask id="Task_SendReviewedAnswer" name="Prepare reviewed answer to customer">
+      <bpmn:extensionElements>
+        <zeebe:script expression="={&#10;  status: &#34;PREPARED&#34;,&#10;  to: replyToEmail,&#10;  customerEmail: customerEmail,&#10;  subject: if requestSubject != null then &#34;Re: &#34; + requestSubject else &#34;RE: Your loan inquiry&#34;,&#10;  body: if reviewedResponse != null and reviewedResponse != &#34;&#34; then reviewedResponse else agent.responseText,&#10;  reviewedBy: &#34;loan-review-team&#34;,&#10;  reviewerNotes: reviewerNotes,&#10;  sentAt: string(now())&#10;}" resultVariable="finalEmail" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_Reviewed_Send</bpmn:incoming>
+      <bpmn:outgoing>Flow_ReviewedSend_End</bpmn:outgoing>
+    </bpmn:scriptTask>
+    <bpmn:serviceTask id="Task_EmailReviewedAnswer" name="Email reviewed answer to customer" zeebe:modelerTemplate="io.camunda.connectors.email.v1" zeebe:modelerTemplateVersion="8" zeebe:modelerTemplateIcon="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgY2xpcC1wYXRoPSJ1cmwoI2NsaXAwXzkwXzI0MjApIj4KPHBhdGggZD0iTTguMzM4MzUgOS45NTM2NUwxMC4zODk0IDEyLjAxMDRMOC4zMzI2MiAxNC4wNjcyTDkuMTQ2MTYgMTQuODc1TDEyLjAxMDcgMTIuMDEwNEw5LjE0NjE2IDkuMTQ1ODNMOC4zMzgzNSA5Ljk1MzY1WiIgZmlsbD0iYmxhY2siLz4KPHBhdGggZD0iTTEyLjM0ODggOS45NTM2NUwxNC4zOTk4IDEyLjAxMDRMMTIuMzQzIDE0LjA2NzJMMTMuMTU2NiAxNC44NzVMMTYuMDIxMiAxMi4wMTA0TDEzLjE1NjYgOS4xNDU4M0wxMi4zNDg4IDkuOTUzNjVaIiBmaWxsPSJibGFjayIvPgo8cGF0aCBkPSJNMy45NzIgMTEuNDM3NUgxLjEyNTMzVjIuNzkyMTlMNy42NzM3NiA3LjMyMzk2QzcuNzY5NjcgNy4zOTA0OSA3Ljg4MzYgNy40MjYxNCA4LjAwMDMyIDcuNDI2MTRDOC4xMTcwNSA3LjQyNjE0IDguMjMwOTggNy4zOTA0OSA4LjMyNjg5IDcuMzIzOTZMMTQuODc1MyAyLjc5MjE5VjhIMTYuMDIxMlYyLjI3MDgzQzE2LjAyMTIgMS45NjY5NCAxNS45MDA0IDEuNjc1NDkgMTUuNjg1NiAxLjQ2MDYxQzE1LjQ3MDcgMS4yNDU3MiAxNS4xNzkyIDEuMTI1IDE0Ljg3NTMgMS4xMjVIMS4xMjUzM0MwLjgyMTQzMiAxLjEyNSAwLjUyOTk4NCAxLjI0NTcyIDAuMzE1MDk5IDEuNDYwNjFDMC4xMDAyMTQgMS42NzU0OSAtMC4wMjA1MDc4IDEuOTY2OTQgLTAuMDIwNTA3OCAyLjI3MDgzVjExLjQzNzVDLTAuMDIwNTA3OCAxMS43NDE0IDAuMTAwMjE0IDEyLjAzMjggMC4zMTUwOTkgMTIuMjQ3N0MwLjUyOTk4NCAxMi40NjI2IDAuODIxNDMyIDEyLjU4MzMgMS4xMjUzMyAxMi41ODMzSDMuOTcyVjExLjQzNzVaTTEzLjYxNDkgMi4yNzA4M0w4LjAwMDMyIDYuMTU1MjFMMi4zODU3NCAyLjI3MDgzSDEzLjYxNDlaIiBmaWxsPSIjRkM1RDBEIi8+CjxwYXRoIGQ9Ik00LjI4MjEgOS45NTM2NUw2LjMzMzE0IDEyLjAxMDRMNC4yNzYzNyAxNC4wNjcyTDUuMDg5OTEgMTQuODc1TDcuOTU0NDkgMTIuMDEwNEw1LjA4OTkxIDkuMTQ1ODNMNC4yODIxIDkuOTUzNjVaIiBmaWxsPSJibGFjayIvPgo8L2c+CjxkZWZzPgo8Y2xpcFBhdGggaWQ9ImNsaXAwXzkwXzI0MjAiPgo8cmVjdCB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIGZpbGw9IndoaXRlIi8+CjwvY2xpcFBhdGg+CjwvZGVmcz4KPC9zdmc+Cg==">
+      <bpmn:documentation>Sends the reviewer-approved answer via Gmail SMTP.</bpmn:documentation>
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="io.camunda:email:1" retries="3" />
+        <zeebe:ioMapping>
+          <zeebe:input source="smtp" target="protocol" />
+          <zeebe:input source="sendEmailSmtp" target="data.smtpActionDiscriminator" />
+          <zeebe:input source="simple" target="authentication.type" />
+          <zeebe:input source="{{secrets.EMAIL_USERNAME}}" target="authentication.username" />
+          <zeebe:input source="{{secrets.EMAIL_PASSWORD}}" target="authentication.password" />
+          <zeebe:input source="{{secrets.EMAIL_USERNAME}}" target="data.smtpAction.from" />
+          <zeebe:input source="=finalEmail.to" target="data.smtpAction.to" />
+          <zeebe:input source="=finalEmail.subject" target="data.smtpAction.subject" />
+          <zeebe:input source="PLAIN" target="data.smtpAction.contentType" />
+          <zeebe:input source="=finalEmail.body" target="data.smtpAction.body" />
+          <zeebe:input source="none" target="data.smtpAction.data_smtpAction_attachments_documentMode" />
+          <zeebe:input source="=if data.smtpAction.data_smtpAction_attachments_documentMode = &#34;multiple&#34; then data.smtpAction.data_smtpAction_attachments_multiple_expression else if data.smtpAction.data_smtpAction_attachments_documentMode = &#34;single&#34; then (if data.smtpAction.data_smtpAction_attachments_single_documentSource = &#34;camunda&#34; then [data.smtpAction.data_smtpAction_attachments_single_camundaReference] else if data.smtpAction.data_smtpAction_attachments_single_documentSource = &#34;inline&#34; then [{ &#34;camunda.document.type&#34;: &#34;inline&#34;, content: data.smtpAction.data_smtpAction_attachments_single_inline_content, name: data.smtpAction.data_smtpAction_attachments_single_inline_fileName, contentType: data.smtpAction.data_smtpAction_attachments_single_inline_contentType }] else if data.smtpAction.data_smtpAction_attachments_single_documentSource = &#34;external&#34; then [{ &#34;camunda.document.type&#34;: &#34;external&#34;, url: data.smtpAction.data_smtpAction_attachments_single_external_url, name: data.smtpAction.data_smtpAction_attachments_single_external_fileName }] else null) else null" target="data.smtpAction.attachments" />
+          <zeebe:input source="smtp.gmail.com" target="data.smtpConfig.smtpHost" />
+          <zeebe:input source="=587" target="data.smtpConfig.smtpPort" />
+          <zeebe:input source="TLS" target="data.smtpConfig.smtpCryptographicProtocol" />
+        </zeebe:ioMapping>
+        <zeebe:taskHeaders>
+          <zeebe:header key="elementTemplateVersion" value="8" />
+          <zeebe:header key="elementTemplateId" value="io.camunda.connectors.email.v1" />
+          <zeebe:header key="retryBackoff" value="PT10S" />
+        </zeebe:taskHeaders>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_ReviewedSend_End</bpmn:incoming>
+      <bpmn:outgoing>Flow_EmailReviewed_End</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="EndEvent_ReviewComplete" name="Review complete">
+      <bpmn:incoming>Flow_EmailReviewed_End</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:intermediateThrowEvent id="ThrowEvent_ReviewerEscalates" name="Human takes full control">
+      <bpmn:incoming>Flow_Reviewer_Escalate</bpmn:incoming>
+      <bpmn:escalationEventDefinition id="EscalationEventDefinition_Reviewer" escalationRef="Escalation_HumanControl" />
+    </bpmn:intermediateThrowEvent>
+    <bpmn:intermediateThrowEvent id="ThrowEvent_HumanControl_Judge" name="Human takes full control">
+      <bpmn:incoming>Flow_Human_Judge</bpmn:incoming>
+      <bpmn:escalationEventDefinition id="EscalationEventDefinition_Judge" escalationRef="Escalation_HumanControl" />
+    </bpmn:intermediateThrowEvent>
+    <bpmn:subProcess id="SubProcess_HumanIntervention" name="Human intervention" triggeredByEvent="true">
+      <bpmn:startEvent id="StartEvent_HumanControl" name="Human takes full control">
+        <bpmn:outgoing>Flow_Human_Start_Resolve</bpmn:outgoing>
+        <bpmn:escalationEventDefinition id="EscalationEventDefinition_Start" escalationRef="Escalation_HumanControl" />
+      </bpmn:startEvent>
+      <bpmn:userTask id="Task_ResolveIssue" name="Resolve issue">
+        <bpmn:extensionElements>
+          <zeebe:userTask />
+          <zeebe:formDefinition formId="resolve-issue-form" />
+          <zeebe:assignmentDefinition candidateGroups="loan-specialist-team" />
+          <zeebe:ioMapping>
+            <zeebe:input source="=customerId" target="customerId" />
+            <zeebe:input source="=customerName" target="customerName" />
+            <zeebe:input source="=customerEmail" target="customerEmail" />
+            <zeebe:input source="=inquiryText" target="inquiryText" />
+            <zeebe:input source="=if specialistHandoverNote != null then &#34;Loan specialist took over: &#34; + specialistHandoverNote&#10;else if reviewDecision = &#34;ESCALATE&#34; then &#34;Reviewer escalated: &#34; + (if reviewerNotes != null then reviewerNotes else &#34;no notes&#34;)&#10;else if judgeResult.responseJson.reason != null then &#34;Judge verdict &#34; + judgeResult.responseJson.outcome + &#34;: &#34; + judgeResult.responseJson.reason&#10;else &#34;Escalated to a human&#34;" target="escalationReason" />
+            <zeebe:input source="=if agent.responseText = null then &#34;(the AI agent did not produce a final answer)&#34; else agent.responseText" target="agentDraft" />
+            <zeebe:output source="=humanResolution" target="humanResolution" />
+            <zeebe:output source="=resolutionStatus" target="resolutionStatus" />
+          </zeebe:ioMapping>
+        </bpmn:extensionElements>
+        <bpmn:incoming>Flow_Human_Start_Resolve</bpmn:incoming>
+        <bpmn:outgoing>Flow_Resolve_Send</bpmn:outgoing>
+      </bpmn:userTask>
+      <bpmn:scriptTask id="Task_SendHumanResolution" name="Prepare resolution to customer">
+        <bpmn:extensionElements>
+          <zeebe:script expression="={&#10;  status: &#34;PREPARED&#34;,&#10;  to: replyToEmail,&#10;  customerEmail: customerEmail,&#10;  subject: if requestSubject != null then &#34;Re: &#34; + requestSubject else &#34;RE: Your loan inquiry&#34;,&#10;  body: if humanResolution != null and humanResolution != &#34;&#34; then humanResolution else &#34;Thank you for your patience. A loan specialist has reviewed your request and will contact you shortly.&#34;,&#10;  resolutionStatus: resolutionStatus,&#10;  handledBy: &#34;loan-specialist-team&#34;,&#10;  sentAt: string(now())&#10;}" resultVariable="finalEmail" />
+        </bpmn:extensionElements>
+        <bpmn:incoming>Flow_Resolve_Send</bpmn:incoming>
+        <bpmn:outgoing>Flow_Resolve_End</bpmn:outgoing>
+      </bpmn:scriptTask>
+      <bpmn:serviceTask id="Task_EmailHumanResolution" name="Email resolution to customer" zeebe:modelerTemplate="io.camunda.connectors.email.v1" zeebe:modelerTemplateVersion="8" zeebe:modelerTemplateIcon="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgY2xpcC1wYXRoPSJ1cmwoI2NsaXAwXzkwXzI0MjApIj4KPHBhdGggZD0iTTguMzM4MzUgOS45NTM2NUwxMC4zODk0IDEyLjAxMDRMOC4zMzI2MiAxNC4wNjcyTDkuMTQ2MTYgMTQuODc1TDEyLjAxMDcgMTIuMDEwNEw5LjE0NjE2IDkuMTQ1ODNMOC4zMzgzNSA5Ljk1MzY1WiIgZmlsbD0iYmxhY2siLz4KPHBhdGggZD0iTTEyLjM0ODggOS45NTM2NUwxNC4zOTk4IDEyLjAxMDRMMTIuMzQzIDE0LjA2NzJMMTMuMTU2NiAxNC44NzVMMTYuMDIxMiAxMi4wMTA0TDEzLjE1NjYgOS4xNDU4M0wxMi4zNDg4IDkuOTUzNjVaIiBmaWxsPSJibGFjayIvPgo8cGF0aCBkPSJNMy45NzIgMTEuNDM3NUgxLjEyNTMzVjIuNzkyMTlMNy42NzM3NiA3LjMyMzk2QzcuNzY5NjcgNy4zOTA0OSA3Ljg4MzYgNy40MjYxNCA4LjAwMDMyIDcuNDI2MTRDOC4xMTcwNSA3LjQyNjE0IDguMjMwOTggNy4zOTA0OSA4LjMyNjg5IDcuMzIzOTZMMTQuODc1MyAyLjc5MjE5VjhIMTYuMDIxMlYyLjI3MDgzQzE2LjAyMTIgMS45NjY5NCAxNS45MDA0IDEuNjc1NDkgMTUuNjg1NiAxLjQ2MDYxQzE1LjQ3MDcgMS4yNDU3MiAxNS4xNzkyIDEuMTI1IDE0Ljg3NTMgMS4xMjVIMS4xMjUzM0MwLjgyMTQzMiAxLjEyNSAwLjUyOTk4NCAxLjI0NTcyIDAuMzE1MDk5IDEuNDYwNjFDMC4xMDAyMTQgMS42NzU0OSAtMC4wMjA1MDc4IDEuOTY2OTQgLTAuMDIwNTA3OCAyLjI3MDgzVjExLjQzNzVDLTAuMDIwNTA3OCAxMS43NDE0IDAuMTAwMjE0IDEyLjAzMjggMC4zMTUwOTkgMTIuMjQ3N0MwLjUyOTk4NCAxMi40NjI2IDAuODIxNDMyIDEyLjU4MzMgMS4xMjUzMyAxMi41ODMzSDMuOTcyVjExLjQzNzVaTTEzLjYxNDkgMi4yNzA4M0w4LjAwMDMyIDYuMTU1MjFMMi4zODU3NCAyLjI3MDgzSDEzLjYxNDlaIiBmaWxsPSIjRkM1RDBEIi8+CjxwYXRoIGQ9Ik00LjI4MjEgOS45NTM2NUw2LjMzMzE0IDEyLjAxMDRMNC4yNzYzNyAxNC4wNjcyTDUuMDg5OTEgMTQuODc1TDcuOTU0NDkgMTIuMDEwNEw1LjA4OTkxIDkuMTQ1ODNMNC4yODIxIDkuOTUzNjVaIiBmaWxsPSJibGFjayIvPgo8L2c+CjxkZWZzPgo8Y2xpcFBhdGggaWQ9ImNsaXAwXzkwXzI0MjAiPgo8cmVjdCB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIGZpbGw9IndoaXRlIi8+CjwvY2xpcFBhdGg+CjwvZGVmcz4KPC9zdmc+Cg==">
+        <bpmn:documentation>Sends the loan specialist's resolution via Gmail SMTP.</bpmn:documentation>
+        <bpmn:extensionElements>
+          <zeebe:taskDefinition type="io.camunda:email:1" retries="3" />
+          <zeebe:ioMapping>
+            <zeebe:input source="smtp" target="protocol" />
+            <zeebe:input source="sendEmailSmtp" target="data.smtpActionDiscriminator" />
+            <zeebe:input source="simple" target="authentication.type" />
+            <zeebe:input source="{{secrets.EMAIL_USERNAME}}" target="authentication.username" />
+            <zeebe:input source="{{secrets.EMAIL_PASSWORD}}" target="authentication.password" />
+            <zeebe:input source="{{secrets.EMAIL_USERNAME}}" target="data.smtpAction.from" />
+            <zeebe:input source="=finalEmail.to" target="data.smtpAction.to" />
+            <zeebe:input source="=finalEmail.subject" target="data.smtpAction.subject" />
+            <zeebe:input source="PLAIN" target="data.smtpAction.contentType" />
+            <zeebe:input source="=finalEmail.body" target="data.smtpAction.body" />
+            <zeebe:input source="none" target="data.smtpAction.data_smtpAction_attachments_documentMode" />
+            <zeebe:input source="=if data.smtpAction.data_smtpAction_attachments_documentMode = &#34;multiple&#34; then data.smtpAction.data_smtpAction_attachments_multiple_expression else if data.smtpAction.data_smtpAction_attachments_documentMode = &#34;single&#34; then (if data.smtpAction.data_smtpAction_attachments_single_documentSource = &#34;camunda&#34; then [data.smtpAction.data_smtpAction_attachments_single_camundaReference] else if data.smtpAction.data_smtpAction_attachments_single_documentSource = &#34;inline&#34; then [{ &#34;camunda.document.type&#34;: &#34;inline&#34;, content: data.smtpAction.data_smtpAction_attachments_single_inline_content, name: data.smtpAction.data_smtpAction_attachments_single_inline_fileName, contentType: data.smtpAction.data_smtpAction_attachments_single_inline_contentType }] else if data.smtpAction.data_smtpAction_attachments_single_documentSource = &#34;external&#34; then [{ &#34;camunda.document.type&#34;: &#34;external&#34;, url: data.smtpAction.data_smtpAction_attachments_single_external_url, name: data.smtpAction.data_smtpAction_attachments_single_external_fileName }] else null) else null" target="data.smtpAction.attachments" />
+            <zeebe:input source="smtp.gmail.com" target="data.smtpConfig.smtpHost" />
+            <zeebe:input source="=587" target="data.smtpConfig.smtpPort" />
+            <zeebe:input source="TLS" target="data.smtpConfig.smtpCryptographicProtocol" />
+          </zeebe:ioMapping>
+          <zeebe:taskHeaders>
+            <zeebe:header key="elementTemplateVersion" value="8" />
+            <zeebe:header key="elementTemplateId" value="io.camunda.connectors.email.v1" />
+            <zeebe:header key="retryBackoff" value="PT10S" />
+          </zeebe:taskHeaders>
+        </bpmn:extensionElements>
+        <bpmn:incoming>Flow_Resolve_End</bpmn:incoming>
+        <bpmn:outgoing>Flow_EmailResolution_End</bpmn:outgoing>
+      </bpmn:serviceTask>
+      <bpmn:endEvent id="EndEvent_InquiryAnswered" name="Inquiry answered">
+        <bpmn:incoming>Flow_EmailResolution_End</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:sequenceFlow id="Flow_Human_Start_Resolve" sourceRef="StartEvent_HumanControl" targetRef="Task_ResolveIssue" />
+      <bpmn:sequenceFlow id="Flow_Resolve_Send" sourceRef="Task_ResolveIssue" targetRef="Task_SendHumanResolution" />
+      <bpmn:sequenceFlow id="Flow_Resolve_End" sourceRef="Task_SendHumanResolution" targetRef="Task_EmailHumanResolution" />
+      <bpmn:sequenceFlow id="Flow_EmailResolution_End" sourceRef="Task_EmailHumanResolution" targetRef="EndEvent_InquiryAnswered" />
+    </bpmn:subProcess>
+    <bpmn:sequenceFlow id="Flow_Start_Prepare" sourceRef="StartEvent_Request" targetRef="Task_PrepareInquiry" />
+    <bpmn:sequenceFlow id="Flow_Email_Prepare" sourceRef="Event_1hx9lm5" targetRef="Task_PrepareInquiry" />
+    <bpmn:sequenceFlow id="Flow_Prepare_Fetch" sourceRef="Task_PrepareInquiry" targetRef="Task_FetchPastConversations" />
+    <bpmn:sequenceFlow id="Flow_Fetch_Gateway" sourceRef="Task_FetchPastConversations" targetRef="Gateway_ConversationFound" />
+    <bpmn:sequenceFlow id="Flow_Found_Loop" name="yes" sourceRef="Gateway_ConversationFound" targetRef="Gateway_AgentLoop">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=conversationCount &gt; 0</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_NotFound_FirstContact" name="no" sourceRef="Gateway_ConversationFound" targetRef="Task_FirstContact" />
+    <bpmn:sequenceFlow id="Flow_FirstContact_Loop" sourceRef="Task_FirstContact" targetRef="Gateway_AgentLoop" />
+    <bpmn:sequenceFlow id="Flow_Loop_Agent" sourceRef="Gateway_AgentLoop" targetRef="Task_LoanSupportAgent" />
+    <bpmn:sequenceFlow id="Flow_Agent_ToolGateway" sourceRef="Task_LoanSupportAgent" targetRef="Gateway_ToolCalls" />
+    <bpmn:sequenceFlow id="Flow_ToolCalls_Tools" name="yes - run tools" sourceRef="Gateway_ToolCalls" targetRef="SubProcess_AgentTools">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=not(agent.toolCalls = null) and count(agent.toolCalls) &gt; 0</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_Tools_Loop" name="tool results" sourceRef="SubProcess_AgentTools" targetRef="Task_RecordToolEvidence" />
+    <bpmn:sequenceFlow id="Flow_Evidence_Loop" sourceRef="Task_RecordToolEvidence" targetRef="Gateway_AgentLoop" />
+    <bpmn:sequenceFlow id="Flow_NoToolCalls_Judge" name="no - final answer" sourceRef="Gateway_ToolCalls" targetRef="Task_AgentAsJudge" />
+    <bpmn:sequenceFlow id="Flow_Judge_Gateway" sourceRef="Task_AgentAsJudge" targetRef="Gateway_JudgeOutcome" />
+    <bpmn:sequenceFlow id="Flow_Solved_Send" name="case solved" sourceRef="Gateway_JudgeOutcome" targetRef="Task_SendFinalAnswer">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=judgeResult.responseJson.outcome = "CASE_SOLVED"</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_Send_End" sourceRef="Task_SendFinalAnswer" targetRef="Task_EmailFinalAnswer" />
+    <bpmn:sequenceFlow id="Flow_EmailFinal_End" sourceRef="Task_EmailFinalAnswer" targetRef="EndEvent_CaseSolved" />
+    <bpmn:sequenceFlow id="Flow_Review" name="review needed" sourceRef="Gateway_JudgeOutcome" targetRef="Task_ReviewResolution" />
+    <bpmn:sequenceFlow id="Flow_Review_Decision" sourceRef="Task_ReviewResolution" targetRef="Gateway_ReviewDecision" />
+    <bpmn:sequenceFlow id="Flow_Reviewed_Send" name="send" sourceRef="Gateway_ReviewDecision" targetRef="Task_SendReviewedAnswer" />
+    <bpmn:sequenceFlow id="Flow_ReviewedSend_End" sourceRef="Task_SendReviewedAnswer" targetRef="Task_EmailReviewedAnswer" />
+    <bpmn:sequenceFlow id="Flow_EmailReviewed_End" sourceRef="Task_EmailReviewedAnswer" targetRef="EndEvent_ReviewComplete" />
+    <bpmn:sequenceFlow id="Flow_Reviewer_Escalate" name="escalate" sourceRef="Gateway_ReviewDecision" targetRef="ThrowEvent_ReviewerEscalates">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=reviewDecision = "ESCALATE"</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_Human_Judge" name="human intervention needed" sourceRef="Gateway_JudgeOutcome" targetRef="ThrowEvent_HumanControl_Judge">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=judgeResult.responseJson.outcome = "HUMAN_INTERVENTION"</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:textAnnotation id="Text_AgenticLoop">
+      <bpmn:text>Dynamic orchestration: the AI agent picks tools; results loop back</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="Text_HumanIntervention">
+      <bpmn:text>Human intervention</bpmn:text>
+    </bpmn:textAnnotation>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_LoanSupport">
+    <bpmndi:BPMNPlane id="BPMNPlane_LoanSupport" bpmnElement="Process_LoanSupportV3">
+      <bpmndi:BPMNShape id="StartEvent_Request_di" bpmnElement="StartEvent_Request">
+        <dc:Bounds x="202" y="742" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="178" y="778" width="84" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1hx9lm5_di" bpmnElement="Event_1hx9lm5">
+        <dc:Bounds x="202" y="882" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="184" y="918" width="73" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_PrepareInquiry_di" bpmnElement="Task_PrepareInquiry">
+        <dc:Bounds x="290" y="720" width="130" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_FetchPastConversations_di" bpmnElement="Task_FetchPastConversations">
+        <dc:Bounds x="470" y="720" width="130" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_ConversationFound_di" bpmnElement="Gateway_ConversationFound" isMarkerVisible="true">
+        <dc:Bounds x="650" y="735" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="641" y="785" width="68" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_FirstContact_di" bpmnElement="Task_FirstContact">
+        <dc:Bounds x="720" y="840" width="130" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_AgentLoop_di" bpmnElement="Gateway_AgentLoop" isMarkerVisible="true">
+        <dc:Bounds x="890" y="735" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_LoanSupportAgent_di" bpmnElement="Task_LoanSupportAgent">
+        <dc:Bounds x="990" y="720" width="160" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_ToolCalls_di" bpmnElement="Gateway_ToolCalls" isMarkerVisible="true">
+        <dc:Bounds x="1210" y="735" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1195" y="785" width="81" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SubProcess_AgentTools_di" bpmnElement="SubProcess_AgentTools" isExpanded="true">
+        <dc:Bounds x="830" y="80" width="860" height="560" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="get_customer_master_di" bpmnElement="get_customer_master">
+        <dc:Bounds x="870" y="120" width="150" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="get_customer_loans_di" bpmnElement="get_customer_loans">
+        <dc:Bounds x="1060" y="120" width="150" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="get_legacy_loans_di" bpmnElement="get_legacy_loans">
+        <dc:Bounds x="1250" y="120" width="150" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="query_knowledge_base_di" bpmnElement="query_knowledge_base">
+        <dc:Bounds x="1440" y="120" width="150" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="check_meeting_slots_di" bpmnElement="check_meeting_slots">
+        <dc:Bounds x="870" y="240" width="150" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="adjust_loan_schedule_sap_di" bpmnElement="adjust_loan_schedule_sap">
+        <dc:Bounds x="1060" y="240" width="150" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="calculate_loan_di" bpmnElement="calculate_loan">
+        <dc:Bounds x="1250" y="240" width="150" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ask_customer_via_email_di" bpmnElement="ask_customer_via_email">
+        <dc:Bounds x="870" y="360" width="150" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_EmailClarification_di" bpmnElement="Task_EmailClarification">
+        <dc:Bounds x="1060" y="360" width="150" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_WaitForReply_di" bpmnElement="Gateway_WaitForReply">
+        <dc:Bounds x="1250" y="370" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_CustomerReplyEmail_di" bpmnElement="Event_CustomerReplyEmail">
+        <dc:Bounds x="1342" y="377" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_ReplyTimeout_di" bpmnElement="Event_ReplyTimeout">
+        <dc:Bounds x="1342" y="432" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_NoReply_di" bpmnElement="Task_NoReply">
+        <dc:Bounds x="1420" y="420" width="130" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ask_loan_specialist_di" bpmnElement="ask_loan_specialist">
+        <dc:Bounds x="870" y="480" width="150" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_WhoKeepsControl_di" bpmnElement="Gateway_WhoKeepsControl" isMarkerVisible="true">
+        <dc:Bounds x="1080" y="490" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1077" y="540" width="56" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ThrowEvent_AgentKeepsControl_di" bpmnElement="ThrowEvent_AgentKeepsControl">
+        <dc:Bounds x="1192" y="497" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1179" y="533" width="62" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ThrowEvent_HumanControl_Specialist_di" bpmnElement="ThrowEvent_HumanControl_Specialist">
+        <dc:Bounds x="1292" y="572" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1269" y="608" width="82" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_Reply_Wait_di" bpmnElement="Flow_Reply_Wait">
+        <di:waypoint x="1020" y="395" />
+        <di:waypoint x="1060" y="395" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Clarify_Wait_di" bpmnElement="Flow_Clarify_Wait">
+        <di:waypoint x="1210" y="395" />
+        <di:waypoint x="1250" y="395" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Specialist_Gateway_di" bpmnElement="Flow_Specialist_Gateway">
+        <di:waypoint x="1020" y="515" />
+        <di:waypoint x="1080" y="515" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Specialist_Human_di" bpmnElement="Flow_Specialist_Human">
+        <di:waypoint x="1105" y="540" />
+        <di:waypoint x="1105" y="590" />
+        <di:waypoint x="1292" y="590" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1083" y="555" width="75" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Specialist_AgentKeeps_di" bpmnElement="Flow_Specialist_AgentKeeps">
+        <di:waypoint x="1130" y="515" />
+        <di:waypoint x="1192" y="515" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1122" y="490" width="78" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Wait_Reply_di" bpmnElement="Flow_Wait_Reply">
+        <di:waypoint x="1300" y="395" />
+        <di:waypoint x="1342" y="395" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Wait_Timeout_di" bpmnElement="Flow_Wait_Timeout">
+        <di:waypoint x="1275" y="420" />
+        <di:waypoint x="1275" y="450" />
+        <di:waypoint x="1342" y="450" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Timeout_Record_di" bpmnElement="Flow_Timeout_Record">
+        <di:waypoint x="1378" y="450" />
+        <di:waypoint x="1420" y="450" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Task_RecordToolEvidence_di" bpmnElement="Task_RecordToolEvidence">
+        <dc:Bounds x="690" y="590" width="120" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_AgentAsJudge_di" bpmnElement="Task_AgentAsJudge">
+        <dc:Bounds x="1770" y="720" width="150" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_JudgeOutcome_di" bpmnElement="Gateway_JudgeOutcome" isMarkerVisible="true">
+        <dc:Bounds x="1980" y="735" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1967" y="785" width="76" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_SendFinalAnswer_di" bpmnElement="Task_SendFinalAnswer">
+        <dc:Bounds x="2090" y="580" width="140" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_EmailFinalAnswer_di" bpmnElement="Task_EmailFinalAnswer">
+        <dc:Bounds x="2280" y="580" width="140" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_CaseSolved_di" bpmnElement="EndEvent_CaseSolved">
+        <dc:Bounds x="2472" y="602" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2460" y="638" width="61" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_ReviewResolution_di" bpmnElement="Task_ReviewResolution">
+        <dc:Bounds x="2090" y="720" width="140" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_ReviewDecision_di" bpmnElement="Gateway_ReviewDecision" isMarkerVisible="true">
+        <dc:Bounds x="2290" y="735" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2292" y="785" width="47" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_SendReviewedAnswer_di" bpmnElement="Task_SendReviewedAnswer">
+        <dc:Bounds x="2390" y="720" width="140" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_EmailReviewedAnswer_di" bpmnElement="Task_EmailReviewedAnswer">
+        <dc:Bounds x="2580" y="720" width="140" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_ReviewComplete_di" bpmnElement="EndEvent_ReviewComplete">
+        <dc:Bounds x="2772" y="742" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2748" y="778" width="84" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ThrowEvent_ReviewerEscalates_di" bpmnElement="ThrowEvent_ReviewerEscalates">
+        <dc:Bounds x="2392" y="842" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2369" y="878" width="82" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ThrowEvent_HumanControl_Judge_di" bpmnElement="ThrowEvent_HumanControl_Judge">
+        <dc:Bounds x="2092" y="942" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2069" y="978" width="82" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SubProcess_HumanIntervention_di" bpmnElement="SubProcess_HumanIntervention" isExpanded="true">
+        <dc:Bounds x="1070" y="1000" width="820" height="200" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_HumanControl_di" bpmnElement="StartEvent_HumanControl">
+        <dc:Bounds x="1110" y="1082" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1087" y="1118" width="82" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_ResolveIssue_di" bpmnElement="Task_ResolveIssue">
+        <dc:Bounds x="1200" y="1060" width="140" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_SendHumanResolution_di" bpmnElement="Task_SendHumanResolution">
+        <dc:Bounds x="1400" y="1060" width="140" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_EmailHumanResolution_di" bpmnElement="Task_EmailHumanResolution">
+        <dc:Bounds x="1590" y="1060" width="140" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_InquiryAnswered_di" bpmnElement="EndEvent_InquiryAnswered">
+        <dc:Bounds x="1782" y="1082" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1758" y="1118" width="84" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_Human_Start_Resolve_di" bpmnElement="Flow_Human_Start_Resolve">
+        <di:waypoint x="1146" y="1100" />
+        <di:waypoint x="1200" y="1100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Resolve_Send_di" bpmnElement="Flow_Resolve_Send">
+        <di:waypoint x="1340" y="1100" />
+        <di:waypoint x="1400" y="1100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Resolve_End_di" bpmnElement="Flow_Resolve_End">
+        <di:waypoint x="1540" y="1100" />
+        <di:waypoint x="1590" y="1100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_EmailResolution_End_di" bpmnElement="Flow_EmailResolution_End">
+        <di:waypoint x="1730" y="1100" />
+        <di:waypoint x="1782" y="1100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Text_AgenticLoop_di" bpmnElement="Text_AgenticLoop">
+        <dc:Bounds x="1710" y="90" width="240" height="55" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Text_HumanIntervention_di" bpmnElement="Text_HumanIntervention">
+        <dc:Bounds x="1060" y="1210" width="200" height="40" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_Start_Prepare_di" bpmnElement="Flow_Start_Prepare">
+        <di:waypoint x="238" y="760" />
+        <di:waypoint x="290" y="760" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Email_Prepare_di" bpmnElement="Flow_Email_Prepare">
+        <di:waypoint x="238" y="900" />
+        <di:waypoint x="355" y="900" />
+        <di:waypoint x="355" y="800" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Prepare_Fetch_di" bpmnElement="Flow_Prepare_Fetch">
+        <di:waypoint x="420" y="760" />
+        <di:waypoint x="470" y="760" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Fetch_Gateway_di" bpmnElement="Flow_Fetch_Gateway">
+        <di:waypoint x="600" y="760" />
+        <di:waypoint x="650" y="760" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Found_Loop_di" bpmnElement="Flow_Found_Loop">
+        <di:waypoint x="700" y="760" />
+        <di:waypoint x="890" y="760" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="786" y="735" width="18" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_NotFound_FirstContact_di" bpmnElement="Flow_NotFound_FirstContact">
+        <di:waypoint x="675" y="785" />
+        <di:waypoint x="675" y="880" />
+        <di:waypoint x="720" y="880" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="684" y="823" width="13" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_FirstContact_Loop_di" bpmnElement="Flow_FirstContact_Loop">
+        <di:waypoint x="850" y="880" />
+        <di:waypoint x="915" y="880" />
+        <di:waypoint x="915" y="785" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Loop_Agent_di" bpmnElement="Flow_Loop_Agent">
+        <di:waypoint x="940" y="760" />
+        <di:waypoint x="990" y="760" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Agent_ToolGateway_di" bpmnElement="Flow_Agent_ToolGateway">
+        <di:waypoint x="1150" y="760" />
+        <di:waypoint x="1210" y="760" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_ToolCalls_Tools_di" bpmnElement="Flow_ToolCalls_Tools">
+        <di:waypoint x="1235" y="735" />
+        <di:waypoint x="1235" y="640" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1215" y="678" width="70" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Tools_Loop_di" bpmnElement="Flow_Tools_Loop">
+        <di:waypoint x="830" y="620" />
+        <di:waypoint x="810" y="620" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Evidence_Loop_di" bpmnElement="Flow_Evidence_Loop">
+        <di:waypoint x="750" y="650" />
+        <di:waypoint x="750" y="700" />
+        <di:waypoint x="915" y="700" />
+        <di:waypoint x="915" y="735" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_NoToolCalls_Judge_di" bpmnElement="Flow_NoToolCalls_Judge">
+        <di:waypoint x="1260" y="760" />
+        <di:waypoint x="1770" y="760" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1475" y="735" width="81" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Judge_Gateway_di" bpmnElement="Flow_Judge_Gateway">
+        <di:waypoint x="1920" y="760" />
+        <di:waypoint x="1980" y="760" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Solved_Send_di" bpmnElement="Flow_Solved_Send">
+        <di:waypoint x="2005" y="735" />
+        <di:waypoint x="2005" y="620" />
+        <di:waypoint x="2090" y="620" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1991" y="668" width="59" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Send_End_di" bpmnElement="Flow_Send_End">
+        <di:waypoint x="2230" y="620" />
+        <di:waypoint x="2280" y="620" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_EmailFinal_End_di" bpmnElement="Flow_EmailFinal_End">
+        <di:waypoint x="2420" y="620" />
+        <di:waypoint x="2472" y="620" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Review_di" bpmnElement="Flow_Review">
+        <di:waypoint x="2030" y="760" />
+        <di:waypoint x="2090" y="760" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2024" y="735" width="72" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Review_Decision_di" bpmnElement="Flow_Review_Decision">
+        <di:waypoint x="2230" y="760" />
+        <di:waypoint x="2290" y="760" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Reviewed_Send_di" bpmnElement="Flow_Reviewed_Send">
+        <di:waypoint x="2340" y="760" />
+        <di:waypoint x="2390" y="760" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2353" y="735" width="24" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_ReviewedSend_End_di" bpmnElement="Flow_ReviewedSend_End">
+        <di:waypoint x="2530" y="760" />
+        <di:waypoint x="2580" y="760" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_EmailReviewed_End_di" bpmnElement="Flow_EmailReviewed_End">
+        <di:waypoint x="2720" y="760" />
+        <di:waypoint x="2772" y="760" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Reviewer_Escalate_di" bpmnElement="Flow_Reviewer_Escalate">
+        <di:waypoint x="2315" y="785" />
+        <di:waypoint x="2315" y="860" />
+        <di:waypoint x="2392" y="860" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2310" y="813" width="41" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Human_Judge_di" bpmnElement="Flow_Human_Judge">
+        <di:waypoint x="2005" y="785" />
+        <di:waypoint x="2005" y="960" />
+        <di:waypoint x="2092" y="960" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1992" y="863" width="57" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -1,0 +1,48 @@
+{
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.10.0",
+  "exporter": {
+    "name": "Camunda Web Modeler",
+    "version": "f38b97d"
+  },
+  "schemaVersion": 16,
+  "id": "wait-customer-response-form",
+  "components": [
+    {
+      "type": "text",
+      "id": "Text_7",
+      "text": "# ✉️ Customer response\nThe AI agent emailed **{{customerName}}** for more information. Enter the customer's reply (you play the customer in the demo)."
+    },
+    {
+      "type": "textfield",
+      "id": "Field_8",
+      "key": "emailTo",
+      "label": "Sent to",
+      "readonly": true
+    },
+    {
+      "type": "textfield",
+      "id": "Field_9",
+      "key": "emailSubject",
+      "label": "Subject",
+      "readonly": true
+    },
+    {
+      "type": "textarea",
+      "id": "Field_10",
+      "key": "emailBody",
+      "label": "Agent's email",
+      "readonly": true
+    },
+    {
+      "type": "textarea",
+      "id": "Field_11",
+      "key": "customerReply",
+      "label": "Customer reply",
+      "validate": {
+        "required": true
+      }
+    }
+  ],
+  "type": "default"
+}

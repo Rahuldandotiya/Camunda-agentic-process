@@ -1,0 +1,360 @@
+{
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.10.0",
+  "exporter": {
+    "name": "Camunda Web Modeler",
+    "version": "27cc6be"
+  },
+  "schemaVersion": 16,
+  "id": "loan-inquiry-start-form",
+  "components": [
+    {
+      "type": "text",
+      "id": "Text_1",
+      "text": "# 🏦 Loan Support – New Customer Inquiry\nPick a **demo scenario** – its query appears below and you can edit it before starting. Or choose **Custom inquiry** to write a new query for an existing customer or a **new customer**."
+    },
+    {
+      "type": "select",
+      "id": "Field_2",
+      "key": "demoScenario",
+      "label": "Demo scenario",
+      "values": [
+        {
+          "label": "S1 · John Doe – home loan status & restructuring options (expect: case solved)",
+          "value": "S1"
+        },
+        {
+          "label": "S2 · Aisha Khan – missed EMI, penalty waiver (expect: specialist, review)",
+          "value": "S2"
+        },
+        {
+          "label": "S3 · Rahul Mehta – INR 1.45 Cr business loan restructuring (expect: specialist, human)",
+          "value": "S3"
+        },
+        {
+          "label": "S4 · Sneha Iyer – education loan EMI start (first contact) (expect: case solved)",
+          "value": "S4"
+        },
+        {
+          "label": "S5 · Vikram Singh – angry complaint, ombudsman threat (expect: human intervention)",
+          "value": "S5"
+        },
+        {
+          "label": "S6 · Meera Nair – new home loan eligibility + meeting (expect: case solved + meeting)",
+          "value": "S6"
+        },
+        {
+          "label": "S7 · John Doe – confirms 24-month tenure extension (expect: SAP booking, solved)",
+          "value": "S7"
+        },
+        {
+          "label": "S8 · Farhan Sheikh – NOC after closure + car loan (expect: legacy loans, solved)",
+          "value": "S8"
+        },
+        {
+          "label": "S9 · Kavya Menon – part-prepayment, details missing (expect: email clarification)",
+          "value": "S9"
+        },
+        {
+          "label": "S10 · Prospect – no account – documents, rates, balance transfer (expect: prospect, solved)",
+          "value": "S10"
+        },
+        {
+          "label": "S11 · John Doe – credit card + EMI date (out of scope) (expect: out of scope, solved)",
+          "value": "S11"
+        },
+        {
+          "label": "S12 · Unknown ID CUST-99999 – unknown Customer ID (expect: unknown ID, solved)",
+          "value": "S12"
+        },
+        {
+          "label": "Custom inquiry (write your own query)",
+          "value": "CUSTOM"
+        }
+      ],
+      "defaultValue": "S1",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "Field_3",
+      "key": "inquiry_S1",
+      "label": "Query from John Doe (CUST-10042) – edit if you like",
+      "defaultValue": "I would like to understand my current loan status, remaining EMIs, and whether I can restructure my home loan repayment schedule to reduce my monthly burden.",
+      "conditional": {
+        "hide": "=demoScenario != \"S1\""
+      },
+      "validate": {
+        "required": true,
+        "minLength": 10
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "Field_4",
+      "key": "inquiry_S2",
+      "label": "Query from Aisha Khan (CUST-10057) – edit if you like",
+      "defaultValue": "I missed my car loan EMI last month because of a medical emergency in the family. Can you waive the late payment penalty and let me skip next month's EMI as well? I do not want this to affect my CIBIL score.",
+      "conditional": {
+        "hide": "=demoScenario != \"S2\""
+      },
+      "validate": {
+        "required": true,
+        "minLength": 10
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "Field_5",
+      "key": "inquiry_S3",
+      "label": "Query from Rahul Mehta (CUST-10073) – edit if you like",
+      "defaultValue": "Our textile export business has been hit by a sharp slowdown in export orders. We need to restructure our business term loan BL-2022-0733 (about INR 1.45 Cr outstanding): extend the tenure by 36 months and get a 6-month moratorium on principal.",
+      "conditional": {
+        "hide": "=demoScenario != \"S3\""
+      },
+      "validate": {
+        "required": true,
+        "minLength": 10
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "Field_6",
+      "key": "inquiry_S4",
+      "label": "Query from Sneha Iyer (CUST-10088) – edit if you like",
+      "defaultValue": "My course moratorium on the education loan ends in December. When exactly does my EMI start, how much will it be, and can I claim a tax deduction on the interest?",
+      "conditional": {
+        "hide": "=demoScenario != \"S4\""
+      },
+      "validate": {
+        "required": true,
+        "minLength": 10
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "Field_7",
+      "key": "inquiry_S5",
+      "label": "Query from Vikram Singh (CUST-10091) – edit if you like",
+      "defaultValue": "This is unacceptable. Your foreclosure statement for my home loan charges me a 2% foreclosure fee even though it is a floating rate loan. I was promised a callback 6 days ago and nobody called. I want to speak to a manager immediately, otherwise I am filing a complaint with the RBI Banking Ombudsman.",
+      "conditional": {
+        "hide": "=demoScenario != \"S5\""
+      },
+      "validate": {
+        "required": true,
+        "minLength": 10
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "Field_8",
+      "key": "inquiry_S6",
+      "label": "Query from Meera Nair (CUST-10105) – edit if you like",
+      "defaultValue": "I am planning to buy an apartment in Bengaluru. Am I eligible for a home loan of about INR 75 lakh? My net salary is INR 2.1 lakh per month. I would also like to meet an advisor this week.",
+      "conditional": {
+        "hide": "=demoScenario != \"S6\""
+      },
+      "validate": {
+        "required": true,
+        "minLength": 10
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "Field_9",
+      "key": "inquiry_S7",
+      "label": "Query from John Doe (CUST-10042) – edit if you like",
+      "defaultValue": "I have reviewed the restructuring options. Please go ahead and extend the tenure of my home loan HL-2024-0042 by 24 months so that my EMI comes down. I confirm this request.",
+      "conditional": {
+        "hide": "=demoScenario != \"S7\""
+      },
+      "validate": {
+        "required": true,
+        "minLength": 10
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "Field_10",
+      "key": "inquiry_S8",
+      "label": "Query from Farhan Sheikh (CUST-10120) – edit if you like",
+      "defaultValue": "I closed my home loan in July but I still have not received the NOC and my original property documents. Also, I am planning to buy a car - am I eligible for a car loan of about INR 12 lakh?",
+      "conditional": {
+        "hide": "=demoScenario != \"S8\""
+      },
+      "validate": {
+        "required": true,
+        "minLength": 10
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "Field_11",
+      "key": "inquiry_S9",
+      "label": "Query from Kavya Menon (CUST-10134) – edit if you like",
+      "defaultValue": "I received my annual bonus and want to prepay part of my loan this month. How much interest will I save and are there any charges?",
+      "conditional": {
+        "hide": "=demoScenario != \"S9\""
+      },
+      "validate": {
+        "required": true,
+        "minLength": 10
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "Field_12",
+      "key": "inquiry_S10",
+      "label": "Query from Prospect – no account – edit if you like",
+      "defaultValue": "Hello, I do not have an account with you yet. What documents do I need to apply for a home loan, what interest rates do you currently offer, and can I transfer my existing home loan from another bank to you?",
+      "conditional": {
+        "hide": "=demoScenario != \"S10\""
+      },
+      "validate": {
+        "required": true,
+        "minLength": 10
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "Field_13",
+      "key": "inquiry_S11",
+      "label": "Query from John Doe (CUST-10042) – edit if you like",
+      "defaultValue": "Can you increase my credit card limit and block my old debit card? Also, when is my next home loan EMI due and how much is it?",
+      "conditional": {
+        "hide": "=demoScenario != \"S11\""
+      },
+      "validate": {
+        "required": true,
+        "minLength": 10
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "Field_14",
+      "key": "inquiry_S12",
+      "label": "Query from Unknown ID CUST-99999 (CUST-99999) – edit if you like",
+      "defaultValue": "Please share the outstanding balance of my personal loan. My customer ID is CUST-99999.",
+      "conditional": {
+        "hide": "=demoScenario != \"S12\""
+      },
+      "validate": {
+        "required": true,
+        "minLength": 10
+      }
+    },
+    {
+      "type": "select",
+      "id": "Field_15",
+      "key": "customerId",
+      "label": "Customer",
+      "values": [
+        {
+          "label": "John Doe (CUST-10042)",
+          "value": "CUST-10042"
+        },
+        {
+          "label": "Aisha Khan (CUST-10057)",
+          "value": "CUST-10057"
+        },
+        {
+          "label": "Rahul Mehta (CUST-10073)",
+          "value": "CUST-10073"
+        },
+        {
+          "label": "Sneha Iyer (CUST-10088)",
+          "value": "CUST-10088"
+        },
+        {
+          "label": "Vikram Singh (CUST-10091)",
+          "value": "CUST-10091"
+        },
+        {
+          "label": "Meera Nair (CUST-10105)",
+          "value": "CUST-10105"
+        },
+        {
+          "label": "Farhan Sheikh (CUST-10120)",
+          "value": "CUST-10120"
+        },
+        {
+          "label": "Kavya Menon (CUST-10134)",
+          "value": "CUST-10134"
+        },
+        {
+          "label": "New customer / prospect (not in bank records)",
+          "value": "GUEST"
+        }
+      ],
+      "defaultValue": "GUEST",
+      "conditional": {
+        "hide": "=demoScenario != \"CUSTOM\""
+      },
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "type": "textfield",
+      "id": "Field_16",
+      "key": "newCustomerName",
+      "label": "New customer name",
+      "conditional": {
+        "hide": "=demoScenario != \"CUSTOM\" or customerId != \"GUEST\""
+      }
+    },
+    {
+      "type": "textfield",
+      "id": "Field_17",
+      "key": "customerEmail",
+      "label": "Reply-to email (optional – empty = demo inbox)",
+      "conditional": {
+        "hide": "=demoScenario != \"CUSTOM\""
+      },
+      "validate": {
+        "pattern": "^$|^[^@ ]+@[^@ ]+$"
+      }
+    },
+    {
+      "type": "textarea",
+      "id": "Field_18",
+      "key": "inquiryText",
+      "label": "Customer query",
+      "conditional": {
+        "hide": "=demoScenario != \"CUSTOM\""
+      },
+      "validate": {
+        "required": true,
+        "minLength": 10
+      }
+    },
+    {
+      "type": "radio",
+      "id": "Field_19",
+      "key": "channel",
+      "label": "Channel",
+      "values": [
+        {
+          "label": "Customer portal",
+          "value": "PORTAL"
+        },
+        {
+          "label": "Email",
+          "value": "EMAIL"
+        },
+        {
+          "label": "Branch",
+          "value": "BRANCH"
+        },
+        {
+          "label": "Phone",
+          "value": "PHONE"
+        }
+      ],
+      "defaultValue": "PORTAL"
+    }
+  ],
+  "type": "default"
+}
